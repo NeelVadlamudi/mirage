@@ -1,0 +1,5 @@
+store_id,store_name,region,format_type,city,lat,lon,map_label,chip_label
+101,warehouse_1,Northeast,club,"Everett, MA",42.402137,-71.069774,2 Mystic View Rd,warehouse_1
+102,warehouse_2,Northeast,club,"Dedham, MA",42.231627,-71.176682,200 Legacy Blvd,warehouse_2
+103,warehouse_3,Northeast,club,"Waltham, MA",42.39436,-71.265464,71 Second Ave,warehouse_3
+901,warehouse_4,Northeast,crossdock,"Avon, MA",42.137378,-71.066062,120 Stockwell Dr · supply pin only,warehouse_4
