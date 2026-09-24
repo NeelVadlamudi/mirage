@@ -1,6 +1,4 @@
 {
-  "project_name": "Mirage",
-  "project_subtitle": "Empty floor. Book still shows stock.",
   "as_of": "2026-09-22",
   "gap_ceiling": 0.15,
   "pins": [
@@ -12,10 +10,8 @@
       "city": "Everett, MA",
       "lat": 42.402137,
       "lon": -71.069774,
-      "map_label": "2 Mystic View Rd",
-      "region": "Northeast",
-      "real_site": "public pin only",
-      "pin_role": "club floor KPIs"
+      "map_label": "warehouse_1",
+      "region": "Northeast"
     },
     {
       "store_id": 102,
@@ -25,23 +21,19 @@
       "city": "Dedham, MA",
       "lat": 42.231627,
       "lon": -71.176682,
-      "map_label": "200 Legacy Blvd",
-      "region": "Northeast",
-      "real_site": "public pin only",
-      "pin_role": "club floor KPIs"
+      "map_label": "warehouse_2",
+      "region": "Northeast"
     },
     {
-      "store_id": 103,
+      "store_id": 201,
       "store_name": "warehouse_3",
       "chip_label": "warehouse_3",
       "format_type": "club",
       "city": "Waltham, MA",
       "lat": 42.39436,
       "lon": -71.265464,
-      "map_label": "71 Second Ave",
-      "region": "Northeast",
-      "real_site": "public pin only",
-      "pin_role": "club floor KPIs"
+      "map_label": "warehouse_3",
+      "region": "Northeast"
     },
     {
       "store_id": 901,
@@ -51,11 +43,8 @@
       "city": "Avon, MA",
       "lat": 42.137378,
       "lon": -71.066062,
-      "map_label": "120 Stockwell Dr \u00b7 supply pin only",
-      "region": "Northeast",
-      "real_site": "public pin only",
-      "pin_role": "supply pin only \u2014 no floor KPIs",
-      "pin_status": "Supply pin only \u2014 no floor KPIs"
+      "map_label": "warehouse_4",
+      "region": "Northeast"
     }
   ],
   "clubs": {
@@ -105,49 +94,56 @@
           "store_id": 101,
           "chip_label": "warehouse_1",
           "category": "Household",
-          "gap_sku_count": 3
+          "gap_sku_count": 3,
+          "store_name": "warehouse_1"
         },
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
           "chip_label": "warehouse_1",
           "category": "Baby",
-          "gap_sku_count": 1
+          "gap_sku_count": 1,
+          "store_name": "warehouse_1"
         },
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
           "chip_label": "warehouse_1",
           "category": "Dairy",
-          "gap_sku_count": 1
+          "gap_sku_count": 1,
+          "store_name": "warehouse_1"
         },
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
           "chip_label": "warehouse_1",
           "category": "Deli",
-          "gap_sku_count": 1
+          "gap_sku_count": 1,
+          "store_name": "warehouse_1"
         },
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
           "chip_label": "warehouse_1",
           "category": "GM",
-          "gap_sku_count": 1
+          "gap_sku_count": 1,
+          "store_name": "warehouse_1"
         },
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
           "chip_label": "warehouse_1",
           "category": "Grocery",
-          "gap_sku_count": 1
+          "gap_sku_count": 1,
+          "store_name": "warehouse_1"
         },
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
           "chip_label": "warehouse_1",
           "category": "Meat",
-          "gap_sku_count": 1
+          "gap_sku_count": 1,
+          "store_name": "warehouse_1"
         }
       ],
       "exceptions": [
@@ -399,8 +395,7 @@
         "is_backroom_rescue": 1,
         "floor_share": 0.0,
         "backroom_share": 1.0,
-        "exception_type": "phantom+rescue",
-        "action_label": "Floor pull \u00b7 recount"
+        "exception_type": "phantom+rescue"
       }
     },
     "warehouse_2": {
@@ -449,21 +444,24 @@
           "store_id": 102,
           "chip_label": "warehouse_2",
           "category": "Baby",
-          "gap_sku_count": 2
+          "gap_sku_count": 2,
+          "store_name": "warehouse_2"
         },
         {
           "snapshot_date": "2026-09-22",
           "store_id": 102,
           "chip_label": "warehouse_2",
           "category": "Deli",
-          "gap_sku_count": 1
+          "gap_sku_count": 1,
+          "store_name": "warehouse_2"
         },
         {
           "snapshot_date": "2026-09-22",
           "store_id": 102,
           "chip_label": "warehouse_2",
           "category": "Office",
-          "gap_sku_count": 1
+          "gap_sku_count": 1,
+          "store_name": "warehouse_2"
         }
       ],
       "exceptions": [
@@ -590,18 +588,17 @@
         "is_backroom_rescue": 1,
         "floor_share": 0.0,
         "backroom_share": 1.0,
-        "exception_type": "phantom+rescue",
-        "action_label": "Floor pull \u00b7 recount"
+        "exception_type": "phantom+rescue"
       }
     },
     "warehouse_3": {
-      "store_id": 103,
+      "store_id": 201,
       "store_name": "warehouse_3",
       "chip_label": "warehouse_3",
       "city": "Waltham, MA",
       "kpi": {
         "snapshot_date": "2026-09-22",
-        "store_id": 103,
+        "store_id": 201,
         "store_name": "warehouse_3",
         "chip_label": "warehouse_3",
         "region": "Northeast",
@@ -637,30 +634,33 @@
       "gaps_by_category": [
         {
           "snapshot_date": "2026-09-22",
-          "store_id": 103,
+          "store_id": 201,
           "chip_label": "warehouse_3",
           "category": "Baby",
-          "gap_sku_count": 1
+          "gap_sku_count": 1,
+          "store_name": "warehouse_3"
         },
         {
           "snapshot_date": "2026-09-22",
-          "store_id": 103,
+          "store_id": 201,
           "chip_label": "warehouse_3",
           "category": "Household",
-          "gap_sku_count": 1
+          "gap_sku_count": 1,
+          "store_name": "warehouse_3"
         },
         {
           "snapshot_date": "2026-09-22",
-          "store_id": 103,
+          "store_id": 201,
           "chip_label": "warehouse_3",
           "category": "Meat",
-          "gap_sku_count": 1
+          "gap_sku_count": 1,
+          "store_name": "warehouse_3"
         }
       ],
       "exceptions": [
         {
           "snapshot_date": "2026-09-22",
-          "store_id": 103,
+          "store_id": 201,
           "sku_id": 229060,
           "floor_qty": 0.0,
           "backroom_qty": 16.0,
@@ -685,7 +685,7 @@
         },
         {
           "snapshot_date": "2026-09-22",
-          "store_id": 103,
+          "store_id": 201,
           "sku_id": 667301,
           "floor_qty": 0.0,
           "backroom_qty": 24.0,
@@ -710,7 +710,7 @@
         },
         {
           "snapshot_date": "2026-09-22",
-          "store_id": 103,
+          "store_id": 201,
           "sku_id": 445890,
           "floor_qty": 0.0,
           "backroom_qty": 0.0,
@@ -736,7 +736,7 @@
       ],
       "shelf_pull": {
         "snapshot_date": "2026-09-22",
-        "store_id": 103,
+        "store_id": 201,
         "sku_id": 229060,
         "floor_qty": 0.0,
         "backroom_qty": 16.0,
@@ -756,32 +756,8 @@
         "is_backroom_rescue": 1,
         "floor_share": 0.0,
         "backroom_share": 1.0,
-        "exception_type": "phantom+rescue",
-        "action_label": "Floor pull \u00b7 recount"
+        "exception_type": "phantom+rescue"
       }
     }
-  },
-  "metro": "Massachusetts only",
-  "disclaimer": "Synthetic inventory. Real publicly listed warehouse addresses used only for map pins. Demo is not affiliated with Costco, BJ's, or Sam's Club.",
-  "sample": "3 clubs + 1 DC, 40 SKUs, check window 2026-09-09 to 2026-09-22 (14 days)",
-  "action_legend": {
-    "phantom": "Recount / system fix",
-    "rescue": "Floor pull from backroom",
-    "phantom+rescue": "Floor pull \u00b7 recount",
-    "gap": "Replenish / order"
-  },
-  "dc": {
-    "store_id": 901,
-    "store_name": "warehouse_4",
-    "chip_label": "warehouse_4",
-    "format_type": "crossdock",
-    "city": "Avon, MA",
-    "lat": 42.137378,
-    "lon": -71.066062,
-    "pin_status": "Supply pin only \u2014 no floor KPIs",
-    "snapshot_date": "2026-09-22",
-    "outbound_cases_staged": 1840,
-    "late_asn_count": 3,
-    "note": "Synthetic DC day metrics for map context. No sales-floor gap, phantom, or rescue KPIs."
   }
 }
