@@ -82,7 +82,8 @@
     if (gapEl) gapEl.classList.toggle("is-hot", !!over);
 
     const setText = (sel, val) => { const el = $(sel); if (el) el.textContent = val; };
-    setText("[data-gap-rate]", pct(kpi.gap_rate));
+    const gapRateEl = $("[data-gap-rate]");
+    if (gapRateEl) gapRateEl.innerHTML = formatNumHtml(pct(kpi.gap_rate));
     const gapFoot = $("[data-gap-foot]");
     if (gapFoot) {
       gapFoot.innerHTML =
@@ -93,7 +94,19 @@
     setText("[data-phantom]", int(kpi.phantom_sku_count));
     setText("[data-rescue]", int(kpi.backroom_rescue_sku_count));
 
-    const pull = club.shelf_pull;
+    const rows0 = club.exceptions || [];
+    let pull = club.shelf_pull;
+    if (state.selectedSku) {
+      const picked = rows0.find((r) => String(r.sku_id) === String(state.selectedSku));
+      if (picked) {
+        pull = {
+          sku_id: picked.sku_id,
+          sku_name: picked.sku_name,
+          backroom_qty: picked.backroom_qty,
+          system_on_hand_qty: picked.system_on_hand_qty,
+        };
+      }
+    }
     setText("[data-pull-sku]", String(pull.sku_id));
     setText("[data-pull-name]", pull.sku_name);
     setText("[data-pull-qty]", int(pull.backroom_qty));
@@ -101,7 +114,9 @@
     const share =
       pull.system_on_hand_qty > 0
         ? Math.min(100, (pull.backroom_qty / pull.system_on_hand_qty) * 100)
-        : 0;
+        : pull.backroom_qty > 0
+          ? 100
+          : 0;
     const fill = $("[data-pull-fill]");
     if (fill) fill.style.width = `${share}%`;
 
@@ -258,6 +273,17 @@
       .replace(/"/g, "&quot;");
   }
 
+  function formatNumHtml(s) {
+    const str = String(s);
+    const i = str.indexOf(".");
+    if (i < 0) return escapeHtml(str);
+    return (
+      escapeHtml(str.slice(0, i)) +
+      '<span class="num-dot">.</span>' +
+      escapeHtml(str.slice(i + 1))
+    );
+  }
+
   function showTip() {
     const tip = $("[data-tip]");
     if (!tip) return;
@@ -280,9 +306,15 @@
     state.selectedSku = null;
     state.tipDismissed = false;
     const isSupply = id === "warehouse_4";
-    document.querySelector(".app").classList.toggle("is-supply", isSupply);
+    const app = document.querySelector(".app");
+    if (app) app.classList.toggle("is-supply", isSupply);
     setPlate(id);
     renderSwitcher();
+    if (!state.board) {
+      const live = $("[data-live]");
+      if (live) live.textContent = "Loading board data…";
+      return;
+    }
     if (isSupply) {
       renderSupply();
     } else {
@@ -293,6 +325,8 @@
   }
 
   function bind() {
+    if (state._bound) return;
+    state._bound = true;
     $$("[data-wh]").forEach((btn) => {
       btn.addEventListener("click", () => selectWarehouse(btn.getAttribute("data-wh")));
     });
@@ -316,6 +350,7 @@
   }
 
   async function load() {
+    bind(); // wire clicks even if JSON is still loading or fails
     try {
     const [board, alloc] = await Promise.all([
       fetch("./data/board_data.json").then((r) => {
@@ -345,7 +380,6 @@
       }
     });
 
-    bind();
     renderAlloc();
     const whParam = new URLSearchParams(location.search).get("wh");
     if (whParam && (FLOOR_IDS.includes(whParam) || whParam === "warehouse_4")) {
@@ -356,6 +390,7 @@
       console.error(err);
       const live = $("[data-live]");
       if (live) live.textContent = "Board load error: " + err.message;
+      // Keep buttons clickable; selectWarehouse no-ops until data is present
     }
   }
 
