@@ -11,7 +11,7 @@ Pins are labeled `warehouse_1` … `warehouse_4`. The labels are made up, and so
 | warehouse_1 | Everett, MA | 42.4084 | -71.0537 | Club floor KPIs |
 | warehouse_2 | Dedham, MA | 42.2418 | -71.1662 | Club floor KPIs |
 | warehouse_3 | Waltham, MA | 42.3765 | -71.2356 | Club floor KPIs |
-| warehouse_4 | Avon, MA | 42.1306 | -71.0412 | **Supply pin only - no floor KPIs** |
+| warehouse_4 | Avon, MA | 42.1306 | -71.0412 | **Supply only · no floor counts** |
 
 ### warehouse_4 treatment
 

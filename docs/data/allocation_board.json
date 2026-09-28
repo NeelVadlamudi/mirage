@@ -12,7 +12,7 @@
     "tiles": [
       "98 cases arrived at the DC",
       "60 cases go to clubs \u00b7 38 stay at DC (nobody needs them)",
-      "Clubs short on stock: 40 \u2192 32 after this plan"
+      "Clubs short: 40 \u2192 32 after this plan"
     ],
     "plain": "98 cases arrived at the DC. 60 cases go to clubs \u00b7 38 stay at DC (nobody needs them)."
   },
@@ -152,6 +152,6 @@
   "before_after": {
     "under_1_wos_before": 40,
     "under_1_wos_after": 32,
-    "plain": "Clubs short on stock: 40 \u2192 32 after this plan"
+    "plain": "Clubs short: 40 \u2192 32 after this plan"
   }
 }

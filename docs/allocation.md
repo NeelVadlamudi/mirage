@@ -13,7 +13,7 @@ Purchase order **PO-26092201** arrives at the DC with **98** cases (12 items).
 | Cases that go to clubs | 60 |
 | Cases that stay at the DC | 38 |
 | Club-to-club moves | 1 (Sticky Notes Value, 5 cases, warehouse_1 → warehouse_2) |
-| Clubs short on stock (under 1 week) | 40 before the plan, 32 after |
+| Clubs short (under 1 week) | 40 before the plan, 32 after |
 
 | Club | How fast stock sold (28 days) | Short before | Short after |
 | --- | --- | --- | --- |
