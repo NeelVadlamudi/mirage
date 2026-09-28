@@ -538,7 +538,7 @@
           "floor_share": null,
           "backroom_share": null,
           "exception_type": "true_out",
-          "action_label": "Replenish / order"
+          "action_label": "Actually out"
         },
         {
           "snapshot_date": "2026-09-22",
@@ -563,7 +563,7 @@
           "floor_share": null,
           "backroom_share": null,
           "exception_type": "true_out",
-          "action_label": "Replenish / order"
+          "action_label": "Actually out"
         }
       ],
       "shelf_pull": {

@@ -1,6 +1,9 @@
 # Mirage
 
+**Live board:** [https://neelvadlamudi.github.io/mirage/](https://neelvadlamudi.github.io/mirage/)
+
 Empty shelf. Full backroom. System still says we have stock.
+
 
 I built this for people who run clubs and for people who hire analysts. One board. You pick a club and a day. You see how many shelves are empty, why each one is empty, and what to do next. When a truck of cases lands at the DC, you also see how many go to each club and whether one club should send stock to another.
 
@@ -48,13 +51,15 @@ python3 scripts/verify_allocation.py
 
 ## Open the board
 
+**Recruiters start here:** [https://neelvadlamudi.github.io/mirage/](https://neelvadlamudi.github.io/mirage/)
+
+Local copy:
+
 ```bash
 cd docs && python3 -m http.server 8080
 ```
 
 Then open http://localhost:8080/
-
-Live site uses the `docs` folder on GitHub Pages.
 
 ## For people who want the SQL / Tableau layer
 
@@ -66,8 +71,11 @@ Tableau extracts sit under `data/tableau/`.
 
 | View | File |
 | --- | --- |
-| Desktop | [`docs/screenshots/desktop_1440_house_ui.png`](docs/screenshots/desktop_1440_house_ui.png) |
-| Tablet | [`docs/screenshots/tablet_1024_house_ui.png`](docs/screenshots/tablet_1024_house_ui.png) |
+| Desktop | [`docs/screenshots/desktop_1440.png`](docs/screenshots/desktop_1440.png) |
+| Phone | [`docs/screenshots/phone_390.png`](docs/screenshots/phone_390.png) |
+
+Live board: [https://neelvadlamudi.github.io/mirage/](https://neelvadlamudi.github.io/mirage/)
+
 
 ## License
 
