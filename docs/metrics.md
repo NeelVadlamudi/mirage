@@ -1,70 +1,66 @@
-# Mirage metrics
+# Mirage metrics (plain English)
 
-Numbers a hiring manager can say in one sentence. Check window: 2026-09-09 → 2026-09-22. Floor grain: store × SKU × day.
+For a hiring manager or a floor lead. One screen. Numbers you can say out loud.
 
-Synthetic data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer.
+Check window: Sep 9 to Sep 22, 2026. Made-up data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer.
 
-## Gap rate
+## Empty shelves (gap rate)
 
-Share of stocked SKUs with nothing on the sales floor today.
+Share of stocked items with nothing on the sales floor today.
 
-`gap_rate = count(floor_qty = 0 AND is_in_assortment = 1) / count(is_in_assortment = 1)`
+On the locked day at warehouse_1 that is **22.5%** (9 of 40).
 
-Say it like: "22.5% of the assortment is empty on the floor right now."
+Say it like: "About one in four items on the assortment is empty on the floor right now."
 
-When it's high, open the exception list. Each row already has the next step.
+Next move: open the list. Each row already says what to do.
 
-## Phantom SKUs
+## Book is wrong (phantom)
 
-Floor is empty. The system still shows on-hand. Book says yes. Shelf says no.
+Floor is empty. The system still shows stock.
 
-`is_phantom = 1 when floor_qty = 0 AND system_on_hand_qty > 0`
+On the locked day: **7** items.
 
-Rollup: count distinct SKUs with that flag.
+Next move: recount. Fix the book.
 
-Next step: **Recount / fix the book**.
+## Stuck in backroom (rescue)
 
-## Backroom rescue
+Floor is empty. The backroom has it.
 
-Floor empty, backroom has stock. That's a labor miss, not a buy miss.
+On the locked day: **6** items.
 
-Rescue row: `floor_qty = 0 AND backroom_qty > 0`
+Next move: pull it to the floor. If the book is also wrong, pull and recount.
 
-Next step: **Pull to the floor**. If it's also phantom: **Pull · recount**.
+## Actually out (pure gap)
 
-## Pure gap
+Floor empty, backroom empty, book is zero.
 
-Floor empty, backroom empty, book is zero. You need product.
+Next move: order more.
 
-Next step: **Replenish / order**.
+## How to read the four together
 
-## How they stack
-
-| Metric | Question | Next step |
+| Tile | Question | Next move |
 | --- | --- | --- |
-| Gap rate | How empty is the floor today? | Open the list |
-| Phantom | How much of that emptiness is a bad book? | Recount |
-| Backroom rescue | Is the stock just not on the floor? | Pull |
-| Pure gap | Are we actually out? | Order |
+| Empty shelves | How bad is empty-shelf today? | Open the list |
+| Book is wrong | How much of that is a bad book? | Recount |
+| Stuck in backroom | Is the stock just not on the floor? | Pull |
+| Actually out | Are we really out? | Order |
 
-## Map pins
+## Clubs on the map
 
-| Pin | Town | Lat, lon | Role |
-| --- | --- | --- | --- |
-| warehouse_1 | Everett, MA | 42.4084, -71.0537 | Club — floor KPIs |
-| warehouse_2 | Dedham, MA | 42.2418, -71.1662 | Club — floor KPIs |
-| warehouse_3 | Waltham, MA | 42.3765, -71.2356 | Club — floor KPIs |
-| warehouse_4 | Avon, MA | 42.1306, -71.0412 | Supply only — no floor KPIs |
+| Label | Town | Role |
+| --- | --- | --- |
+| warehouse_1 | Everett, MA | Club |
+| warehouse_2 | Dedham, MA | Club |
+| warehouse_3 | Waltham, MA | Club |
+| warehouse_4 | Avon, MA | DC only (no floor tiles) |
 
-### warehouse_4 on the check day (synthetic)
+On the check day the DC shows synthetic outbound cases staged (1840) and late advance ship notices (3). That is context for the truck, not a floor score.
 
-| Field | Value |
-| --- | --- |
-| `outbound_cases_staged` | 1840 |
-| `late_asn_count` | 3 |
+## Formulas (for analysts who want them)
 
-These are DC context, not floor KPIs. See `docs/data/board_data.json` → `dc`.
+- Empty shelves: count(floor = 0 and in assortment) / count(in assortment)
+- Book is wrong: floor = 0 and system on-hand > 0
+- Stuck in backroom: floor = 0 and backroom > 0
+- Actually out: floor empty, not phantom, not backroom rescue
 
-## Locked check — warehouse_1 · 2026-09-22
-
-Gap **22.5%** (9 of 40). Phantom **7**. Rescue **6**.
+Locked check: warehouse_1 · 2026-09-22 · **22.5% / 7 / 6**.

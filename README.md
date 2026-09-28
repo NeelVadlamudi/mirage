@@ -1,120 +1,74 @@
 # Mirage
 
-Empty shelf. Full backroom. Phantom inventory.
+Empty shelf. Full backroom. System still says we have stock.
 
-I built this so a floor lead can see which empty shelves are a recount, which are a backroom pull, and which need a real order. Then, when a PO lands at the DC, how many whole cases go to each club, and whether one club should ship to another.
+I built this for people who run clubs and for people who hire analysts. One board. You pick a club and a day. You see how many shelves are empty, why each one is empty, and what to do next. When a truck of cases lands at the DC, you also see how many go to each club and whether one club should send stock to another.
 
-## What this is (and isn't)
+## Straight talk
 
-Synthetic data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer. Public files use `warehouse_1`…`warehouse_4` only.
+The data is made up for a portfolio demo. Map pins sit on town centers, not real stores. This is not affiliated with any retailer. Clubs are labeled `warehouse_1`, `warehouse_2`, `warehouse_3`. The DC is `warehouse_4`.
 
-## Gap board
+## What the board shows
 
-| Metric | What it means | What to do |
+| Tile | In plain words | Next move |
 | --- | --- | --- |
-| **Gap rate** | Share of assortment with floor qty = 0 | Open the exception list |
-| **Phantom SKUs** | Floor empty, system still shows on-hand | Recount / fix the book |
-| **Backroom rescue** | Floor empty, backroom has stock | Pull to the floor |
-| **Pure gap** | Floor empty, no backroom, book is zero | Replenish / order |
+| **Empty shelves** | How much of the assortment has nothing on the floor | Open the list |
+| **Book is wrong** | Floor is empty but the system still shows stock | Recount |
+| **Stuck in backroom** | Floor is empty but the backroom has it | Pull it to the floor |
+| **Actually out** | Nothing on floor, nothing in back, book is zero | Order more |
 
-More detail: [`docs/metrics.md`](docs/metrics.md).
+On the locked check day (**warehouse_1**, Sep 22, 2026):
 
-### Locked check — warehouse_1 · 2026-09-22
+- Empty shelves: **22.5%** (9 of 40 items)
+- Book is wrong: **7** items
+- Stuck in backroom: **6** items
 
-| KPI | Value |
-| --- | --- |
-| Gap rate | **22.5%** (9 of 40) |
-| Phantom SKUs | **7** |
-| Backroom rescue | **6** |
+Prove those three numbers on any laptop:
 
 ```bash
 python3 scripts/verify_kpis.py
 ```
 
-You should see: `ALL PASS — warehouse_1 @ 2026-09-22: 22.5% / 7 / 6`
+## Where the truck goes (allocation)
 
-## Allocation (PO split + one transfer)
+A purchase order lands at the DC: **98** cases across 12 items.
 
-PO-26092201 hits warehouse_4 with **98** cases. The plan ships **60** to the three clubs in whole cases, keeps **38** at the DC (nobody needs them), and runs **one** club-to-club move when one club is under 1 week of supply and another is over 4 on the same item. Club-SKUs under 1 week go from **40 → 32**.
+- **60** cases go out to the three clubs
+- **38** stay at the DC because no club needs them
+- **1** club-to-club move: Sticky Notes Value, 5 cases, from warehouse_1 to warehouse_2
+- Clubs short on stock: **40 → 32** after the plan
 
-Why need beats sales share, what largest remainder means, why counted units (not the system book), and why only one transfer: [`docs/allocation.md`](docs/allocation.md). Read that before you interview on this.
+The short writeup a recruiter can read in two minutes: [`docs/allocation.md`](docs/allocation.md). That page is also the interview sheet (why need beats sales share, what largest remainder means, why 38 stay at the DC, why only one transfer, why we use counted units).
+
+Prove it:
 
 ```bash
 python3 scripts/verify_allocation.py
 ```
 
-Last line should be: `ALL PASS - PO 98 cases: 60 allocated, 38 held at DC; 1 transfer(s); club-SKUs under 1 week of supply 40 -> 32`
-
-T-SQL: `sql/03_allocation_schema.sql`, `sql/04_allocation.sql`.
-
 ## Open the board
 
 ```bash
 cd docs && python3 -m http.server 8080
-# http://localhost:8080/
 ```
 
-GitHub Pages: Settings → Pages → branch, folder **`/docs`**.
+Then open http://localhost:8080/
 
-Clubs: `warehouse_1` (Everett), `warehouse_2` (Dedham), `warehouse_3` (Waltham).  
-`warehouse_4` (Avon) is supply only. No floor KPIs there.
+Live site uses the `docs` folder on GitHub Pages.
 
-## Run the SQL
+## For people who want the SQL / Tableau layer
 
-1. SQL Server Developer (or Azure SQL) + Azure Data Studio / SSMS.
-2. Empty database, e.g. `mirage`.
-3. Run in order: `sql/00_schema.sql` → `01_seed.sql` → `02_metrics.sql` → (optional) `03_allocation_schema.sql` → `04_allocation.sql`.
-
-```sql
-SELECT gap_rate, gap_sku_count, phantom_sku_count, backroom_rescue_sku_count
-FROM dbo.v_store_day_kpis
-WHERE store_name = N'warehouse_1' AND snapshot_date = '2026-09-22';
--- expect 0.2250, 9, 7, 6
-```
-
-Step-by-step proof: [`INSTALL.md`](INSTALL.md).
-
-## Tableau
-
-Connect Tableau Public/Desktop to the CSVs under `data/tableau/`. Build notes: [`docs/tableau-build.md`](docs/tableau-build.md).
-
-## What's in the folder
-
-| Path | What |
-| --- | --- |
-| `sql/` | Schema, seed, gap views, allocation |
-| `data/` | Dims, inventory, sales, PO, packs |
-| `data/tableau/` | Extracts |
-| `docs/` | Board (`index.html`), metrics, allocation writeup |
-| `docs/data/board_data.json` | Gap board feed |
-| `docs/data/allocation_board.json` | Allocation strip feed |
-| `scripts/verify_kpis.py` | Gap lock (stdlib) |
-| `scripts/verify_allocation.py` | Allocation lock (stdlib) |
+Install steps: [`INSTALL.md`](INSTALL.md).  
+Metric definitions: [`docs/metrics.md`](docs/metrics.md).  
+Tableau extracts sit under `data/tableau/`.
 
 ## Screenshots
 
-| Capture | File |
+| View | File |
 | --- | --- |
-| Desktop 1440 | [`docs/screenshots/desktop_1440_house_ui.png`](docs/screenshots/desktop_1440_house_ui.png) |
-| Tablet 1024 | [`docs/screenshots/tablet_1024_house_ui.png`](docs/screenshots/tablet_1024_house_ui.png) |
-
-warehouse_1 on 2026-09-22: gap **22.5%**, phantom **7**, rescue **6**.
-
-## Map pins
-
-[`docs/map-pins-ma.md`](docs/map-pins-ma.md). Labels are `warehouse_N` + city / street / lat-lon only.
-
-## If something breaks
-
-| Issue | Fix |
-| --- | --- |
-| Board blank on `file://` | Serve `docs/` with `python3 -m http.server` |
-| `verify_kpis.py` fails gap_rate | Don't edit `data/tableau/v_store_day_kpis.csv` |
-| Tableau map empty | Geographic roles on `v_map_pins.csv` lat/lon |
-| warehouse_4 has no KPIs | Expected. Use warehouse_1–3 |
-| SQL seed FK errors | Fresh DB, run scripts in order |
-| Pages 404 | Pages source = branch, folder `/docs` |
+| Desktop | [`docs/screenshots/desktop_1440_house_ui.png`](docs/screenshots/desktop_1440_house_ui.png) |
+| Tablet | [`docs/screenshots/tablet_1024_house_ui.png`](docs/screenshots/tablet_1024_house_ui.png) |
 
 ## License
 
-MIT — Copyright (c) 2026 Neel Vittal Bharath Vadlamudi. See [`LICENSE`](LICENSE).
+MIT. Copyright (c) 2026 Neel Vittal Bharath Vadlamudi. See [`LICENSE`](LICENSE).
