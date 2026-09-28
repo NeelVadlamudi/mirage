@@ -3,138 +3,124 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mirage · Analysis</title>
+  <meta name="theme-color" content="#000000" />
+  <title>Mirage · Charts</title>
+  <meta name="description" content="Mirage — empty shelves over time, aisle gaps, truck plan, and moves between clubs." />
   <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./assets/css/fonts.css" />
+  <link rel="stylesheet" href="./assets/css/analysis.css" />
   <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
-  <style>
-    :root {
-      --bg: #121314;
-      --panel: #1a1b1d;
-      --ink: #e8e6e3;
-      --muted: #9a9690;
-      --line: #2a2b2e;
-      --accent: #c4a574;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.45;
-    }
-    header {
-      display: flex; flex-wrap: wrap; gap: 1rem; align-items: baseline;
-      justify-content: space-between;
-      padding: 1.25rem 1.5rem;
-      border-bottom: 1px solid var(--line);
-    }
-    header h1 { font-size: 1.15rem; font-weight: 600; margin: 0; letter-spacing: 0.02em; }
-    header p { margin: 0; color: var(--muted); font-size: 0.9rem; }
-    header a { color: var(--accent); text-decoration: none; }
-    header a:hover { text-decoration: underline; }
-    .toolbar {
-      display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;
-      padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--line);
-    }
-    .toolbar label { color: var(--muted); font-size: 0.85rem; margin-right: 0.25rem; }
-    .chip {
-      appearance: none; border: 1px solid var(--line); background: var(--panel);
-      color: var(--ink); padding: 0.35rem 0.75rem; border-radius: 999px;
-      cursor: pointer; font-size: 0.85rem;
-    }
-    .chip[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
-    main {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      padding: 1rem 1.5rem 2.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    @media (min-width: 900px) {
-      main { grid-template-columns: 1fr 1fr; }
-      .wide { grid-column: 1 / -1; }
-    }
-    section.panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 0.75rem 0.75rem 0.25rem;
-    }
-    section.panel h2 {
-      margin: 0.25rem 0.5rem 0.5rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-    section.panel .note {
-      margin: 0 0.5rem 0.5rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    .chart { width: 100%; min-height: 280px; }
-    footer {
-      max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 2rem;
-      color: var(--muted); font-size: 0.8rem;
-    }
-  </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>Mirage · Analysis</h1>
-      <p>Detailed charts from the same warehouse and DC extracts as the glance board.</p>
+  <div class="app">
+    <div class="ambient" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 34 20" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M6.4 0h3.15L4.85 20H1.7L6.4 0Zm8.15 0h3.15L13 20H9.85l4.7-20Zm8.15 0H26L21.15 20h-3.15L22.7 0Zm8.15 0H34L29.3 20h-3.15L30.85 0Z"
+          ></path>
+        </svg>
+        <div class="wordmark">Mirage</div>
+        <p class="subtitle">charts · same snapshot as the floor board</p>
+      </div>
+      <div class="top-tools">
+        <a class="nav-link" href="./index.html">Floor board</a>
+        <time class="as-of" datetime="2026-09-22T06:00:00">Snapshot · 2026-09-22 06:00</time>
+      </div>
+    </header>
+
+    <div class="toolbar" role="group" aria-label="Warehouse filter">
+      <span class="toolbar-label">Warehouse</span>
+      <button type="button" class="chip" data-club="warehouse_1" aria-pressed="true">warehouse_1</button>
+      <button type="button" class="chip" data-club="warehouse_2" aria-pressed="false">warehouse_2</button>
+      <button type="button" class="chip" data-club="warehouse_3" aria-pressed="false">warehouse_3</button>
+      <button type="button" class="chip" data-club="all" aria-pressed="false">All clubs</button>
     </div>
-    <p><a href="./">← Glance board</a></p>
-  </header>
-  <div class="toolbar" role="group" aria-label="Club filter">
-    <label>Club</label>
-    <button type="button" class="chip" data-club="warehouse_1" aria-pressed="true">warehouse_1</button>
-    <button type="button" class="chip" data-club="warehouse_2" aria-pressed="false">warehouse_2</button>
-    <button type="button" class="chip" data-club="warehouse_3" aria-pressed="false">warehouse_3</button>
-    <button type="button" class="chip" data-club="all" aria-pressed="false">All clubs</button>
+
+    <main class="stage">
+      <section class="glass wide" aria-label="Empty shelves over time">
+        <h2 class="card-title">Empty shelves over time</h2>
+        <p class="card-note">Share of products with nothing on the shelf · dashed line = 15% ceiling</p>
+        <div id="gap-trend" class="chart tall"></div>
+      </section>
+
+      <section class="glass" aria-label="Where the gaps are">
+        <h2 class="card-title">Where the gaps are</h2>
+        <p class="card-note">Empty SKU count by aisle · latest day for selected warehouse</p>
+        <div id="gaps-aisle" class="chart"></div>
+      </section>
+
+      <section class="glass" aria-label="Book is wrong vs Stuck in backroom">
+        <h2 class="card-title">Book is wrong · Stuck in backroom</h2>
+        <p class="card-note">Latest day counts by warehouse</p>
+        <div id="kpi-bars" class="chart"></div>
+      </section>
+
+      <section class="glass wide" aria-label="Today's truck plan">
+        <h2 class="card-title">Today's truck plan</h2>
+        <p class="card-note">Cases by product · stacked warehouse_1 / 2 / 3 / hold at DC · DC-wide</p>
+        <div id="po-stack" class="chart tall"></div>
+      </section>
+
+      <section class="glass wide" aria-label="Move between clubs">
+        <h2 class="card-title">Move between clubs</h2>
+        <p class="card-note">Sticky Notes Value · 5 cases · warehouse_1 → warehouse_2</p>
+        <div id="xfer" class="chart"></div>
+      </section>
+    </main>
+
+    <footer class="legal">
+      <p class="disclaimer">
+        Synthetic warehouse and DC operations data. Pins mark town centers, not stores. Not affiliated with any retailer.
+      </p>
+      <a class="repo" href="./index.html">Floor board</a>
+    </footer>
   </div>
-  <main>
-    <section class="panel wide">
-      <h2>Empty shelves over time</h2>
-      <p class="note">X = snapshot date · Y = empty-shelf rate · dashed line = 15% ceiling</p>
-      <div id="gap-trend" class="chart"></div>
-    </section>
-    <section class="panel">
-      <h2>Where the gaps are</h2>
-      <p class="note">X = aisle · Y = empty SKU count (latest day for selected club)</p>
-      <div id="gaps-aisle" class="chart"></div>
-    </section>
-    <section class="panel">
-      <h2>Book is wrong vs Stuck in backroom</h2>
-      <p class="note">Latest day counts by club</p>
-      <div id="kpi-bars" class="chart"></div>
-    </section>
-    <section class="panel wide">
-      <h2>Today's truck plan · cases by product</h2>
-      <p class="note">X = product · Y = cases · stacked by warehouse_1 / 2 / 3 / hold at DC · DC-wide</p>
-      <div id="po-stack" class="chart"></div>
-    </section>
-    <section class="panel wide">
-      <h2>Move between clubs</h2>
-      <p class="note">Sticky Notes Value · 5 cases · warehouse_1 → warehouse_2</p>
-      <div id="xfer" class="chart"></div>
-    </section>
-  </main>
-  <footer>
-    Synthetic warehouse and DC operations data. Not affiliated with any retailer.
-    Charts load from <code>extracts/</code> CSV next to this page.
-  </footer>
+
   <script>
   (() => {
+    const ACCENT = "#f39444";
+    const DANGER = "#e85d5d";
+    const RESCUE = "#5dbf8a";
+    const MUTED = "rgba(255,255,255,0.38)";
+    const GRID = "rgba(255,255,255,0.08)";
+    const TEXT = "rgba(255,255,255,0.78)";
+    const SERIES = ["#f39444", "#5b8fd9", "#5dbf8a", "rgba(255,255,255,0.28)"];
+
     const LAYOUT = {
       paper_bgcolor: "rgba(0,0,0,0)",
       plot_bgcolor: "rgba(0,0,0,0)",
-      font: { color: "#e8e6e3", family: "IBM Plex Sans, Segoe UI, sans-serif", size: 12 },
-      margin: { t: 24, r: 16, b: 48, l: 48 },
-      xaxis: { gridcolor: "#2a2b2e", zerolinecolor: "#2a2b2e" },
-      yaxis: { gridcolor: "#2a2b2e", zerolinecolor: "#2a2b2e" },
-      legend: { orientation: "h", y: 1.12 },
+      font: { color: TEXT, family: "Geist Variable, Geist, system-ui, sans-serif", size: 12 },
+      margin: { t: 28, r: 16, b: 52, l: 52 },
+      xaxis: {
+        gridcolor: GRID,
+        zerolinecolor: GRID,
+        linecolor: "rgba(255,255,255,0.12)",
+        tickfont: { color: MUTED, family: "Geist Mono Variable, Geist Mono, monospace", size: 11 },
+        title: { font: { size: 11, color: MUTED } },
+      },
+      yaxis: {
+        gridcolor: GRID,
+        zerolinecolor: GRID,
+        linecolor: "rgba(255,255,255,0.12)",
+        tickfont: { color: MUTED, family: "Geist Mono Variable, Geist Mono, monospace", size: 11 },
+        title: { font: { size: 11, color: MUTED } },
+      },
+      legend: {
+        orientation: "h",
+        y: 1.14,
+        x: 0,
+        font: { size: 11, color: TEXT },
+        bgcolor: "rgba(0,0,0,0)",
+      },
+      hoverlabel: {
+        bgcolor: "rgba(18,18,20,0.92)",
+        bordercolor: "rgba(255,255,255,0.15)",
+        font: { family: "Geist Variable, Geist, system-ui, sans-serif", size: 12, color: "#fff" },
+      },
     };
     const CFG = { responsive: true, displayModeBar: true, displaylogo: false };
     let club = "warehouse_1";
@@ -149,7 +135,6 @@
       const lines = text.trim().split(/\r?\n/);
       const headers = lines[0].split(",");
       const rows = lines.slice(1).map((line) => {
-        // simple CSV (no nested commas in these extracts except city which is quoted — use regex split)
         const cells = [];
         let cur = "", inQ = false;
         for (let i = 0; i < line.length; i++) {
@@ -188,21 +173,41 @@
         (byClub[r.chip_label] ||= { x: [], y: [] }).x.push(r.snapshot_date);
         byClub[r.chip_label].y.push(+r.gap_rate * 100);
       });
-      const trendTraces = Object.entries(byClub).map(([name, s]) => ({
-        name, x: s.x, y: s.y, type: "scatter", mode: "lines+markers",
-      }));
+      const clubOrder = ["warehouse_1", "warehouse_2", "warehouse_3"];
+      const trendTraces = clubOrder
+        .filter((name) => byClub[name])
+        .map((name, i) => ({
+          name,
+          x: byClub[name].x,
+          y: byClub[name].y,
+          type: "scatter",
+          mode: "lines+markers",
+          line: { color: SERIES[i], width: 2 },
+          marker: { color: SERIES[i], size: 6 },
+        }));
+      Object.keys(byClub).forEach((name) => {
+        if (clubOrder.includes(name)) return;
+        trendTraces.push({
+          name, x: byClub[name].x, y: byClub[name].y,
+          type: "scatter", mode: "lines+markers",
+          line: { color: ACCENT, width: 2 },
+          marker: { color: ACCENT, size: 6 },
+        });
+      });
+      const ceilX = [...new Set(trendF.map((r) => r.snapshot_date))].sort();
       trendTraces.push({
         name: "15% ceiling",
-        x: trendF.map((r) => r.snapshot_date),
-        y: trendF.map(() => 15),
-        type: "scatter", mode: "lines",
-        line: { dash: "dash", color: "#c4a574", width: 1 },
+        x: ceilX,
+        y: ceilX.map(() => 15),
+        type: "scatter",
+        mode: "lines",
+        line: { dash: "dash", color: ACCENT, width: 1.2 },
         hoverinfo: "skip",
       });
       Plotly.newPlot("gap-trend", trendTraces, {
         ...LAYOUT,
-        yaxis: { ...LAYOUT.yaxis, title: "Empty shelves %", ticksuffix: "%" },
-        xaxis: { ...LAYOUT.xaxis, title: "Date" },
+        yaxis: { ...LAYOUT.yaxis, title: { ...LAYOUT.yaxis.title, text: "Empty shelves %" }, ticksuffix: "%" },
+        xaxis: { ...LAYOUT.xaxis, title: { ...LAYOUT.xaxis.title, text: "Date" } },
       }, CFG);
 
       const latest = [...aisles].sort((a, b) => b.snapshot_date.localeCompare(a.snapshot_date))[0]?.snapshot_date;
@@ -215,11 +220,12 @@
         type: "bar",
         x: aisleNames,
         y: aisleNames.map((k) => aisleAgg[k]),
-        marker: { color: "#c4a574" },
+        marker: { color: ACCENT },
+        hovertemplate: "%{x}<br>%{y} empty SKUs<extra></extra>",
       }], {
         ...LAYOUT,
-        yaxis: { ...LAYOUT.yaxis, title: "Empty SKUs" },
-        xaxis: { ...LAYOUT.xaxis, title: "Aisle" },
+        yaxis: { ...LAYOUT.yaxis, title: { ...LAYOUT.yaxis.title, text: "Empty SKUs" } },
+        xaxis: { ...LAYOUT.xaxis, title: { ...LAYOUT.xaxis.title, text: "Aisle" } },
         showlegend: false,
       }, CFG);
 
@@ -227,13 +233,25 @@
       let kpiF = kpis.filter((r) => r.snapshot_date === kpiLatest);
       if (club !== "all") kpiF = kpiF.filter((r) => r.chip_label === club);
       Plotly.newPlot("kpi-bars", [
-        { name: "Book is wrong", type: "bar", x: kpiF.map((r) => r.chip_label), y: kpiF.map((r) => +r.phantom_sku_count) },
-        { name: "Stuck in backroom", type: "bar", x: kpiF.map((r) => r.chip_label), y: kpiF.map((r) => +r.backroom_rescue_sku_count) },
+        {
+          name: "Book is wrong",
+          type: "bar",
+          x: kpiF.map((r) => r.chip_label),
+          y: kpiF.map((r) => +r.phantom_sku_count),
+          marker: { color: DANGER },
+        },
+        {
+          name: "Stuck in backroom",
+          type: "bar",
+          x: kpiF.map((r) => r.chip_label),
+          y: kpiF.map((r) => +r.backroom_rescue_sku_count),
+          marker: { color: RESCUE },
+        },
       ], {
         ...LAYOUT,
         barmode: "group",
-        yaxis: { ...LAYOUT.yaxis, title: "SKU count" },
-        xaxis: { ...LAYOUT.xaxis, title: "Club" },
+        yaxis: { ...LAYOUT.yaxis, title: { ...LAYOUT.yaxis.title, text: "SKU count" } },
+        xaxis: { ...LAYOUT.xaxis, title: { ...LAYOUT.xaxis.title, text: "Warehouse" } },
       }, CFG);
 
       const flags = await loadCSV("v_inventory_flags.csv");
@@ -256,15 +274,15 @@
         ah.push(Math.max(0, p.received - p.w1 - p.w2 - p.w3));
       });
       Plotly.newPlot("po-stack", [
-        { name: "warehouse_1", type: "bar", x: labs, y: a1 },
-        { name: "warehouse_2", type: "bar", x: labs, y: a2 },
-        { name: "warehouse_3", type: "bar", x: labs, y: a3 },
-        { name: "Hold at DC", type: "bar", x: labs, y: ah },
+        { name: "warehouse_1", type: "bar", x: labs, y: a1, marker: { color: SERIES[0] } },
+        { name: "warehouse_2", type: "bar", x: labs, y: a2, marker: { color: SERIES[1] } },
+        { name: "warehouse_3", type: "bar", x: labs, y: a3, marker: { color: SERIES[2] } },
+        { name: "Hold at DC", type: "bar", x: labs, y: ah, marker: { color: SERIES[3] } },
       ], {
         ...LAYOUT,
         barmode: "stack",
-        yaxis: { ...LAYOUT.yaxis, title: "Cases" },
-        xaxis: { ...LAYOUT.xaxis, title: "Product", tickangle: -30 },
+        yaxis: { ...LAYOUT.yaxis, title: { ...LAYOUT.yaxis.title, text: "Cases" } },
+        xaxis: { ...LAYOUT.xaxis, title: { ...LAYOUT.xaxis.title, text: "Product" }, tickangle: -30 },
       }, CFG);
 
       Plotly.newPlot("xfer", [{
@@ -272,13 +290,17 @@
         orientation: "h",
         node: {
           label: ["warehouse_1", "warehouse_2"],
-          color: ["#c4a574", "#8a9e8a"],
+          color: [ACCENT, RESCUE],
+          pad: 18,
+          thickness: 18,
+          line: { color: "rgba(255,255,255,0.15)", width: 1 },
         },
         link: {
           source: xfer.map(() => 0),
           target: xfer.map(() => 1),
           value: xfer.map((r) => +r.cases_moved || 0),
           label: xfer.map((r) => (r.sku_name || r.sku_id) + " · " + r.cases_moved + " cases"),
+          color: "rgba(243,148,68,0.35)",
         },
       }], {
         ...LAYOUT,
@@ -291,7 +313,7 @@
     });
     render().catch((e) => {
       document.querySelector("main").insertAdjacentHTML("afterbegin",
-        "<p style=\"color:#e88\">Could not load extracts: " + e.message + "</p>");
+        "<p class=\"load-err\">Could not load extracts: " + e.message + "</p>");
     });
   })();
   </script>
