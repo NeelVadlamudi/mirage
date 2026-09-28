@@ -1,0 +1,61 @@
+asset_id,site_id,asset_type,install_year,criticality,pm_interval_days,pm_skip_prob
+DC4-001,901,Reach Truck,2024,2,30,0.21
+DC4-002,901,Reach Truck,2018,2,30,0.25
+DC4-003,901,Reach Truck,2014,2,30,0.1
+DC4-004,901,Reach Truck,2015,2,30,0.28
+DC4-005,901,Reach Truck,2019,2,30,0.32
+DC4-006,901,Reach Truck,2017,2,30,0.35
+DC4-007,901,Reach Truck,2019,2,30,0.19
+DC4-008,901,Reach Truck,2014,2,30,0.18
+DC4-009,901,Reach Truck,2018,2,30,0.24
+DC4-010,901,Reach Truck,2020,2,30,0.24
+DC4-011,901,Reach Truck,2024,2,30,0.29
+DC4-012,901,Reach Truck,2015,2,30,0.05
+DC4-013,901,Reach Truck,2017,2,30,0.33
+DC4-014,901,Reach Truck,2022,2,30,0.04
+DC4-015,901,Order Picker,2021,1,30,0.23
+DC4-016,901,Order Picker,2018,1,30,0.34
+DC4-017,901,Order Picker,2016,1,30,0.23
+DC4-018,901,Order Picker,2016,1,30,0.1
+DC4-019,901,Order Picker,2015,1,30,0.11
+DC4-020,901,Order Picker,2019,1,30,0.11
+DC4-021,901,Order Picker,2014,1,30,0.28
+DC4-022,901,Order Picker,2014,1,30,0.31
+DC4-023,901,Order Picker,2024,1,30,0.24
+DC4-024,901,Order Picker,2019,1,30,0.33
+DC4-025,901,Order Picker,2023,1,30,0.25
+DC4-026,901,Order Picker,2014,1,30,0.1
+DC4-027,901,Order Picker,2017,1,30,0.31
+DC4-028,901,Order Picker,2023,1,30,0.18
+DC4-029,901,Order Picker,2023,1,30,0.17
+DC4-030,901,Order Picker,2014,1,30,0.3
+DC4-031,901,Order Picker,2024,1,30,0.06
+DC4-032,901,Order Picker,2019,1,30,0.08
+DC4-033,901,Electric Pallet Jack,2016,2,30,0.06
+DC4-034,901,Electric Pallet Jack,2015,2,30,0.24
+DC4-035,901,Electric Pallet Jack,2022,2,30,0.29
+DC4-036,901,Electric Pallet Jack,2019,2,30,0.15
+DC4-037,901,Electric Pallet Jack,2024,2,30,0.06
+DC4-038,901,Electric Pallet Jack,2015,2,30,0.19
+DC4-039,901,Electric Pallet Jack,2022,2,30,0.1
+DC4-040,901,Electric Pallet Jack,2022,2,30,0.04
+DC4-041,901,Electric Pallet Jack,2016,2,30,0.24
+DC4-042,901,Electric Pallet Jack,2023,2,30,0.34
+DC4-043,901,Electric Pallet Jack,2022,2,30,0.32
+DC4-044,901,Electric Pallet Jack,2014,2,30,0.31
+DC4-045,901,Electric Pallet Jack,2016,2,30,0.28
+DC4-046,901,Electric Pallet Jack,2019,2,30,0.22
+DC4-047,901,Electric Pallet Jack,2015,2,30,0.08
+DC4-048,901,Electric Pallet Jack,2023,2,30,0.31
+DC4-049,901,Conveyor Section,2016,1,30,0.21
+DC4-050,901,Conveyor Section,2015,1,30,0.25
+DC4-051,901,Conveyor Section,2019,1,30,0.14
+DC4-052,901,Conveyor Section,2018,1,30,0.11
+DC4-053,901,Conveyor Section,2017,1,30,0.29
+DC4-054,901,Conveyor Section,2017,1,30,0.27
+DC4-055,901,Conveyor Section,2017,1,30,0.21
+DC4-056,901,Conveyor Section,2018,1,30,0.04
+DC4-057,901,Dock Leveler,2014,3,30,0.33
+DC4-058,901,Dock Leveler,2017,3,30,0.16
+DC4-059,901,Dock Leveler,2015,3,30,0.19
+DC4-060,901,Dock Leveler,2020,3,30,0.15

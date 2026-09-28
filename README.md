@@ -49,6 +49,26 @@ Prove it:
 python3 scripts/verify_allocation.py
 ```
 
+
+## Equipment that keeps the shelf full (maintenance)
+
+warehouse_4 runs 60 pieces of material-handling gear and 1,009 work orders (synthetic).
+
+| What a facilities lead asks | What the numbers say |
+| --- | --- |
+| Do missed PMs cost us? | After a missed or late PM, the machine broke within 30 days **50.0%** of the time. After an on-time PM it was **25.8%**. About **33** extra breakdowns and **$35.8K** a year. |
+| Where do failures cluster? | Reach trucks 6+ years old had **4.6x** the battery failures of newer ones. Small newer sample (3 trucks), so treat it as a lead. |
+| Enough gear for peak? | December needs **20** order pickers against a fleet of **18**. Short in **5** of the next 13 weeks. |
+| Did the LED retrofit pay off? | **15.1%** less energy than a baseline that tracks shipping volume. Pays back in **17.5** months. |
+
+Interview sheet (read twice): [`docs/maintenance.md`](docs/maintenance.md).  
+One-page report: [`docs/maintenance_report.pdf`](docs/maintenance_report.pdf).  
+Supervisor guide: [`docs/maintenance_user_guide.md`](docs/maintenance_user_guide.md).
+
+```bash
+python3 scripts/verify_maintenance.py
+```
+
 ## Open the board
 
 **Recruiters start here:** [https://neelvadlamudi.github.io/mirage/](https://neelvadlamudi.github.io/mirage/)

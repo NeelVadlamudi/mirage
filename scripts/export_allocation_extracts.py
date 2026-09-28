@@ -43,6 +43,7 @@ def tsql_to_duckdb(sql: str) -> list[str]:
     sql = sql.replace("dbo.", "")
     sql = sql.replace("CREATE OR ALTER VIEW", "CREATE OR REPLACE VIEW")
     sql = re.sub(r"\bN'", "'", sql)
+    sql = sql.replace("DATEADD(day,", "dateadd_day(").replace("DATEDIFF(day,", "datediff('day',")
     batches = re.split(r"^\s*GO\s*$", sql, flags=re.M)
     return [b.strip() for b in batches if b.strip()]
 

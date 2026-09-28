@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 - 2026-09-28
+
+- Maintenance module at warehouse_4: 60 assets, 1,009 synthetic work orders (problem / cause / remedy).
+- Missed or late PM → breakdown within 30 days 50.0% vs 25.8% after on-time PM (~33 extra breakdowns, $35.8K / year).
+- Reach trucks 6+ years old: 4.6x battery failures (lead, small newer sample).
+- Order picker need peaks at 20 vs fleet of 18; short in 5 of next 13 weeks.
+- LED retrofit 15.1% under volume-adjusted baseline; payback 17.5 months.
+- `docs/maintenance_report.pdf`, `docs/maintenance_user_guide.md`, `scripts/verify_maintenance.py`.
+
 ## 0.2.1 - 2026-09-28
 
 - Plain-English docs pass for recruiters and business readers. Same locked numbers.
