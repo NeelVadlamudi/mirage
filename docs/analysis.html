@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mirage · Analysis</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+  <style>
+    :root {
+      --bg: #121314;
+      --panel: #1a1b1d;
+      --ink: #e8e6e3;
+      --muted: #9a9690;
+      --line: #2a2b2e;
+      --accent: #c4a574;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.45;
+    }
+    header {
+      display: flex; flex-wrap: wrap; gap: 1rem; align-items: baseline;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+    header h1 { font-size: 1.15rem; font-weight: 600; margin: 0; letter-spacing: 0.02em; }
+    header p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    header a { color: var(--accent); text-decoration: none; }
+    header a:hover { text-decoration: underline; }
+    .toolbar {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;
+      padding: 0.85rem 1.5rem; border-bottom: 1px solid var(--line);
+    }
+    .toolbar label { color: var(--muted); font-size: 0.85rem; margin-right: 0.25rem; }
+    .chip {
+      appearance: none; border: 1px solid var(--line); background: var(--panel);
+      color: var(--ink); padding: 0.35rem 0.75rem; border-radius: 999px;
+      cursor: pointer; font-size: 0.85rem;
+    }
+    .chip[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+    main {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 1rem 1.5rem 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    @media (min-width: 900px) {
+      main { grid-template-columns: 1fr 1fr; }
+      .wide { grid-column: 1 / -1; }
+    }
+    section.panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.75rem 0.75rem 0.25rem;
+    }
+    section.panel h2 {
+      margin: 0.25rem 0.5rem 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    section.panel .note {
+      margin: 0 0.5rem 0.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .chart { width: 100%; min-height: 280px; }
+    footer {
+      max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 2rem;
+      color: var(--muted); font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Mirage · Analysis</h1>
+      <p>Detailed charts from the same warehouse and DC extracts as the glance board.</p>
+    </div>
+    <p><a href="./">← Glance board</a></p>
+  </header>
+  <div class="toolbar" role="group" aria-label="Club filter">
+    <label>Club</label>
+    <button type="button" class="chip" data-club="warehouse_1" aria-pressed="true">warehouse_1</button>
+    <button type="button" class="chip" data-club="warehouse_2" aria-pressed="false">warehouse_2</button>
+    <button type="button" class="chip" data-club="warehouse_3" aria-pressed="false">warehouse_3</button>
+    <button type="button" class="chip" data-club="all" aria-pressed="false">All clubs</button>
+  </div>
+  <main>
+    <section class="panel wide">
+      <h2>Empty shelves over time</h2>
+      <p class="note">X = snapshot date · Y = empty-shelf rate · dashed line = 15% ceiling</p>
+      <div id="gap-trend" class="chart"></div>
+    </section>
+    <section class="panel">
+      <h2>Where the gaps are</h2>
+      <p class="note">X = aisle · Y = empty SKU count (latest day for selected club)</p>
+      <div id="gaps-aisle" class="chart"></div>
+    </section>
+    <section class="panel">
+      <h2>Book is wrong vs Stuck in backroom</h2>
+      <p class="note">Latest day counts by club</p>
+      <div id="kpi-bars" class="chart"></div>
+    </section>
+    <section class="panel wide">
+      <h2>Today's truck plan · cases by product</h2>
+      <p class="note">X = product · Y = cases · stacked by warehouse_1 / 2 / 3 / hold at DC · DC-wide</p>
+      <div id="po-stack" class="chart"></div>
+    </section>
+    <section class="panel wide">
+      <h2>Move between clubs</h2>
+      <p class="note">Sticky Notes Value · 5 cases · warehouse_1 → warehouse_2</p>
+      <div id="xfer" class="chart"></div>
+    </section>
+  </main>
+  <footer>
+    Synthetic warehouse and DC operations data. Not affiliated with any retailer.
+    Charts load from <code>extracts/</code> CSV next to this page.
+  </footer>
+  <script>
+  (() => {
+    const LAYOUT = {
+      paper_bgcolor: "rgba(0,0,0,0)",
+      plot_bgcolor: "rgba(0,0,0,0)",
+      font: { color: "#e8e6e3", family: "IBM Plex Sans, Segoe UI, sans-serif", size: 12 },
+      margin: { t: 24, r: 16, b: 48, l: 48 },
+      xaxis: { gridcolor: "#2a2b2e", zerolinecolor: "#2a2b2e" },
+      yaxis: { gridcolor: "#2a2b2e", zerolinecolor: "#2a2b2e" },
+      legend: { orientation: "h", y: 1.12 },
+    };
+    const CFG = { responsive: true, displayModeBar: true, displaylogo: false };
+    let club = "warehouse_1";
+    let cache = {};
+
+    async function loadCSV(name) {
+      if (cache[name]) return cache[name];
+      const text = await fetch("./extracts/" + name).then((r) => {
+        if (!r.ok) throw new Error("Missing " + name);
+        return r.text();
+      });
+      const lines = text.trim().split(/\r?\n/);
+      const headers = lines[0].split(",");
+      const rows = lines.slice(1).map((line) => {
+        // simple CSV (no nested commas in these extracts except city which is quoted — use regex split)
+        const cells = [];
+        let cur = "", inQ = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (ch === '"') { inQ = !inQ; continue; }
+          if (ch === "," && !inQ) { cells.push(cur); cur = ""; continue; }
+          cur += ch;
+        }
+        cells.push(cur);
+        const o = {};
+        headers.forEach((h, i) => { o[h] = cells[i]; });
+        return o;
+      });
+      cache[name] = rows;
+      return rows;
+    }
+
+    function setClub(id) {
+      club = id;
+      document.querySelectorAll(".chip[data-club]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", btn.getAttribute("data-club") === id ? "true" : "false");
+      });
+      render();
+    }
+
+    async function render() {
+      const trend = await loadCSV("v_gap_rate_trend.csv");
+      const aisles = await loadCSV("v_gaps_by_category.csv");
+      const kpis = await loadCSV("v_store_day_kpis.csv");
+      const po = await loadCSV("v_po_allocation.csv");
+      const xfer = await loadCSV("v_reallocation_moves.csv");
+
+      const trendF = club === "all" ? trend : trend.filter((r) => r.chip_label === club);
+      const byClub = {};
+      trendF.forEach((r) => {
+        (byClub[r.chip_label] ||= { x: [], y: [] }).x.push(r.snapshot_date);
+        byClub[r.chip_label].y.push(+r.gap_rate * 100);
+      });
+      const trendTraces = Object.entries(byClub).map(([name, s]) => ({
+        name, x: s.x, y: s.y, type: "scatter", mode: "lines+markers",
+      }));
+      trendTraces.push({
+        name: "15% ceiling",
+        x: trendF.map((r) => r.snapshot_date),
+        y: trendF.map(() => 15),
+        type: "scatter", mode: "lines",
+        line: { dash: "dash", color: "#c4a574", width: 1 },
+        hoverinfo: "skip",
+      });
+      Plotly.newPlot("gap-trend", trendTraces, {
+        ...LAYOUT,
+        yaxis: { ...LAYOUT.yaxis, title: "Empty shelves %", ticksuffix: "%" },
+        xaxis: { ...LAYOUT.xaxis, title: "Date" },
+      }, CFG);
+
+      const latest = [...aisles].sort((a, b) => b.snapshot_date.localeCompare(a.snapshot_date))[0]?.snapshot_date;
+      let aisleF = aisles.filter((r) => r.snapshot_date === latest);
+      if (club !== "all") aisleF = aisleF.filter((r) => r.chip_label === club);
+      const aisleAgg = {};
+      aisleF.forEach((r) => { aisleAgg[r.category] = (aisleAgg[r.category] || 0) + (+r.gap_sku_count); });
+      const aisleNames = Object.keys(aisleAgg).sort((a, b) => aisleAgg[b] - aisleAgg[a]);
+      Plotly.newPlot("gaps-aisle", [{
+        type: "bar",
+        x: aisleNames,
+        y: aisleNames.map((k) => aisleAgg[k]),
+        marker: { color: "#c4a574" },
+      }], {
+        ...LAYOUT,
+        yaxis: { ...LAYOUT.yaxis, title: "Empty SKUs" },
+        xaxis: { ...LAYOUT.xaxis, title: "Aisle" },
+        showlegend: false,
+      }, CFG);
+
+      const kpiLatest = [...kpis].sort((a, b) => b.snapshot_date.localeCompare(a.snapshot_date))[0]?.snapshot_date;
+      let kpiF = kpis.filter((r) => r.snapshot_date === kpiLatest);
+      if (club !== "all") kpiF = kpiF.filter((r) => r.chip_label === club);
+      Plotly.newPlot("kpi-bars", [
+        { name: "Book is wrong", type: "bar", x: kpiF.map((r) => r.chip_label), y: kpiF.map((r) => +r.phantom_sku_count) },
+        { name: "Stuck in backroom", type: "bar", x: kpiF.map((r) => r.chip_label), y: kpiF.map((r) => +r.backroom_rescue_sku_count) },
+      ], {
+        ...LAYOUT,
+        barmode: "group",
+        yaxis: { ...LAYOUT.yaxis, title: "SKU count" },
+        xaxis: { ...LAYOUT.xaxis, title: "Club" },
+      }, CFG);
+
+      const flags = await loadCSV("v_inventory_flags.csv");
+      const skuName = {};
+      flags.forEach((r) => { if (r.sku_id && r.sku_name) skuName[r.sku_id] = r.sku_name; });
+      const pivot = {};
+      po.forEach((r) => {
+        const id = r.sku_id;
+        if (!pivot[id]) pivot[id] = { label: skuName[id] || id, w1: 0, w2: 0, w3: 0, received: 0 };
+        const alloc = +r.cases_allocated || 0;
+        if (r.store_name === "warehouse_1") pivot[id].w1 = alloc;
+        if (r.store_name === "warehouse_2") pivot[id].w2 = alloc;
+        if (r.store_name === "warehouse_3") pivot[id].w3 = alloc;
+        pivot[id].received = Math.max(pivot[id].received, +r.cases_received || 0);
+      });
+      const labs = [], a1 = [], a2 = [], a3 = [], ah = [];
+      Object.values(pivot).forEach((p) => {
+        labs.push(p.label);
+        a1.push(p.w1); a2.push(p.w2); a3.push(p.w3);
+        ah.push(Math.max(0, p.received - p.w1 - p.w2 - p.w3));
+      });
+      Plotly.newPlot("po-stack", [
+        { name: "warehouse_1", type: "bar", x: labs, y: a1 },
+        { name: "warehouse_2", type: "bar", x: labs, y: a2 },
+        { name: "warehouse_3", type: "bar", x: labs, y: a3 },
+        { name: "Hold at DC", type: "bar", x: labs, y: ah },
+      ], {
+        ...LAYOUT,
+        barmode: "stack",
+        yaxis: { ...LAYOUT.yaxis, title: "Cases" },
+        xaxis: { ...LAYOUT.xaxis, title: "Product", tickangle: -30 },
+      }, CFG);
+
+      Plotly.newPlot("xfer", [{
+        type: "sankey",
+        orientation: "h",
+        node: {
+          label: ["warehouse_1", "warehouse_2"],
+          color: ["#c4a574", "#8a9e8a"],
+        },
+        link: {
+          source: xfer.map(() => 0),
+          target: xfer.map(() => 1),
+          value: xfer.map((r) => +r.cases_moved || 0),
+          label: xfer.map((r) => (r.sku_name || r.sku_id) + " · " + r.cases_moved + " cases"),
+        },
+      }], {
+        ...LAYOUT,
+        margin: { t: 16, r: 16, b: 16, l: 16 },
+      }, CFG);
+    }
+
+    document.querySelectorAll(".chip[data-club]").forEach((btn) => {
+      btn.addEventListener("click", () => setClub(btn.getAttribute("data-club")));
+    });
+    render().catch((e) => {
+      document.querySelector("main").insertAdjacentHTML("afterbegin",
+        "<p style=\"color:#e88\">Could not load extracts: " + e.message + "</p>");
+    });
+  })();
+  </script>
+</body>
+</html>

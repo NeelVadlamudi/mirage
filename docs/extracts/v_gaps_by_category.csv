@@ -1,0 +1,14 @@
+snapshot_date,store_id,chip_label,category,gap_sku_count
+2026-09-22,101,warehouse_1,Household,3
+2026-09-22,101,warehouse_1,Baby,1
+2026-09-22,101,warehouse_1,Dairy,1
+2026-09-22,101,warehouse_1,Deli,1
+2026-09-22,101,warehouse_1,GM,1
+2026-09-22,101,warehouse_1,Grocery,1
+2026-09-22,101,warehouse_1,Meat,1
+2026-09-22,102,warehouse_2,Baby,2
+2026-09-22,102,warehouse_2,Deli,1
+2026-09-22,102,warehouse_2,Office,1
+2026-09-22,103,warehouse_3,Baby,1
+2026-09-22,103,warehouse_3,Household,1
+2026-09-22,103,warehouse_3,Meat,1
