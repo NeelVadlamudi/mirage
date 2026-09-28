@@ -12,7 +12,7 @@ Folder: `data/tableau/`
 | `v_inventory_flags.csv` | Exception list + shelf pull + **action_label** |
 | `v_gaps_by_category.csv` | Gaps by aisle bars |
 | `v_gap_rate_trend.csv` | Gap rate sparkline |
-| `v_map_pins.csv` | Map pins (lat/lon); warehouse_4 pin_role = supply pin only |
+| `v_map_pins.csv` | Map pins (town-center lat/lon); warehouse_4 pin_role = supply pin only |
 
 Relationships: `store_id` (+ `snapshot_date` where needed).
 

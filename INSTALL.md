@@ -12,6 +12,9 @@ Requires: Python 3.8+ (stdlib only).
 git clone https://github.com/NeelVadlamudi/mirage.git
 cd mirage
 python3 scripts/verify_kpis.py
+
+# Allocation lock (PO split + store-to-store)
+python3 scripts/verify_allocation.py
 ```
 
 ### Expected output (PASS)
@@ -21,8 +24,10 @@ PASS  fact_inventory_daily rows = 1680
 PASS  dim_sku rows = 40
 PASS  dim_store rows = 4
 PASS  v_map_pins rows = 4
-PASS  v_map_pins real_site scrubbed (public pin only / empty)
+PASS  v_map_pins has no real_site column
 PASS  dim_store has no real_site column
+PASS  v_map_pins pins sit at town centers (no street addresses)
+PASS  dim_store pins sit at town centers (no street addresses)
 PASS  warehouse_1 2026-09-22 gap_rate = 0.225
 PASS  warehouse_1 2026-09-22 gap_sku_count = 9
 PASS  warehouse_1 2026-09-22 assortment_sku_count = 40
@@ -34,6 +39,9 @@ ALL PASS — warehouse_1 @ 2026-09-22: 22.5% / 7 / 6
 ```
 
 Locked KPIs: **22.5% / 7 / 6**.
+
+Allocation checker ends with:
+`ALL PASS - PO 98 cases: 60 allocated, 38 held at DC; 1 transfer(s); club-SKUs under 1 week of supply 40 -> 32`
 
 ### Open the interactive board
 
@@ -69,6 +77,8 @@ In Azure Data Studio, open and execute:
 1. `sql/00_schema.sql`
 2. `sql/01_seed.sql`
 3. `sql/02_metrics.sql`
+4. `sql/03_allocation_schema.sql` (then load `data/fact_sales_daily.csv`, `dim_sku_pack.csv`, `fact_dc_po.csv`, `dim_alloc_params.csv`)
+5. `sql/04_allocation.sql`
 
 ### 4. Proof queries
 

@@ -1,18 +1,17 @@
 # Massachusetts map pins
 
-Public labels: `warehouse_1` … `warehouse_4`.
+Synthetic data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer.
 
-Coordinates = real publicly listed warehouse addresses in MA, used **only for map pins**.  
-Demo inventory is synthetic. Demo is **not affiliated** with Costco, BJ’s, or Sam’s Club.
+The four pins are the town centers of Everett, Dedham, Waltham, and Avon, Massachusetts. We picked town centers so the map shows real geography without pointing at any company's building. Each point is in the town's central area, rounded to 4 decimals.
 
-User-facing `map_label` / chip copy: **street address only** (plus “supply pin only” on warehouse_4). No retailer brand on chips or in public pin tables.
+Pins are labeled `warehouse_1` … `warehouse_4`. The labels are made up, and so is every number behind them.
 
-| Label | City | Street | Lat | Lon | Board role |
-| --- | --- | --- | --- | --- | --- |
-| warehouse_1 | Everett, MA | 2 Mystic View Rd | 42.402137 | -71.069774 | Club floor KPIs |
-| warehouse_2 | Dedham, MA | 200 Legacy Blvd | 42.231627 | -71.176682 | Club floor KPIs |
-| warehouse_3 | Waltham, MA | 71 Second Ave | 42.394360 | -71.265464 | Club floor KPIs |
-| warehouse_4 | Avon, MA | 120 Stockwell Dr | 42.137378 | -71.066062 | **Supply pin only — no floor KPIs** |
+| Label | Town | Lat | Lon | Board role |
+| --- | --- | --- | --- | --- |
+| warehouse_1 | Everett, MA | 42.4084 | -71.0537 | Club floor KPIs |
+| warehouse_2 | Dedham, MA | 42.2418 | -71.1662 | Club floor KPIs |
+| warehouse_3 | Waltham, MA | 42.3765 | -71.2356 | Club floor KPIs |
+| warehouse_4 | Avon, MA | 42.1306 | -71.0412 | **Supply pin only — no floor KPIs** |
 
 ### warehouse_4 treatment
 

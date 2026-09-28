@@ -1,7 +1,7 @@
 /*
   Mirage — pass 1 schema
   Target: SQL Server (T-SQL). Portable types. Synthetic club retail.
-  Map pins use real city lat/long so the glance map is honest.
+  Synthetic data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer.
 */
 
 IF OBJECT_ID('dbo.fact_inventory_daily', 'U') IS NOT NULL DROP TABLE dbo.fact_inventory_daily;
@@ -25,7 +25,8 @@ CREATE TABLE dbo.dim_sku (
     sku_name        NVARCHAR(120) NOT NULL,
     category        NVARCHAR(60)  NOT NULL,
     subcategory     NVARCHAR(60)  NOT NULL,
-    is_in_assortment BIT          NOT NULL DEFAULT 1
+    is_in_assortment BIT          NOT NULL DEFAULT 1,
+    case_pack_qty   INT           NOT NULL  -- units per case; allocation ships whole cases only
 );
 
 CREATE TABLE dbo.fact_inventory_daily (

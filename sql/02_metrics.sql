@@ -86,7 +86,7 @@ GROUP BY snapshot_date, store_id, store_name, region;
 GO
 
 
--- Map pins (real building coords). warehouse_4 = supply pin only — no floor KPIs; clubs drive floor KPIs.
+-- Pins mark town centers, not stores. warehouse_4 = supply pin only — no floor KPIs; clubs drive floor KPIs.
 CREATE OR ALTER VIEW dbo.v_map_pins AS
 SELECT
     store_id,

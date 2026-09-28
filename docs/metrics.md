@@ -5,7 +5,7 @@ Audience: ops analyst / hiring manager. One screen. Numbers you can say out loud
 **Sample scale:** 3 clubs + 1 DC, 40 SKUs, check window 2026-09-09 → 2026-09-22 (14 days).  
 Grain for floor metrics: **store × SKU × snapshot_date**.
 
-Inventory is **synthetic**. Map pins use real publicly listed warehouse addresses for realism only. This demo is **not affiliated** with Costco, BJ’s, or Sam’s Club.
+Synthetic data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer.
 
 ---
 
@@ -83,12 +83,12 @@ If also phantom: `Floor pull · recount`
 
 ## Map pins (glance context)
 
-| Pin | City | Approx coords | Role |
+| Pin | Town | Town-center coords | Role |
 | --- | --- | --- | --- |
-| warehouse_1 | Everett, MA | 42.402137, -71.069774 | Club — floor KPIs |
-| warehouse_2 | Dedham, MA | 42.231627, -71.176682 | Club — floor KPIs |
-| warehouse_3 | Waltham, MA | 42.394360, -71.265464 | Club — floor KPIs |
-| warehouse_4 | Avon, MA | 42.137378, -71.066062 | **Supply pin only — no floor KPIs** |
+| warehouse_1 | Everett, MA | 42.4084, -71.0537 | Club — floor KPIs |
+| warehouse_2 | Dedham, MA | 42.2418, -71.1662 | Club — floor KPIs |
+| warehouse_3 | Waltham, MA | 42.3765, -71.2356 | Club — floor KPIs |
+| warehouse_4 | Avon, MA | 42.1306, -71.0412 | **Supply pin only — no floor KPIs** |
 
 Chips / pins filter clubs by `store_id`. warehouse_4 does not run gap / phantom / rescue tiles.
 
@@ -99,7 +99,7 @@ Chips / pins filter clubs by `store_id`. warehouse_4 does not run gap / phantom 
 | `outbound_cases_staged` | 1840 | Synthetic cases staged outbound that day |
 | `late_asn_count` | 3 | Synthetic late ASN count that day |
 
-These are **not** floor KPIs. Documented in `docs/board_data.json` → `dc`.
+These are **not** floor KPIs. Documented in `docs/data/board_data.json` → `dc`.
 
 ---
 

@@ -32,6 +32,13 @@ EXPECTED_COUNTS = {
     "store_rows": 4,
     "pin_rows": 4,
 }
+# Town-center pins (lat, lon), rounded to 4 decimals.
+TOWN_CENTERS = {
+    "warehouse_1": (42.4084, -71.0537),  # Everett, MA
+    "warehouse_2": (42.2418, -71.1662),  # Dedham, MA
+    "warehouse_3": (42.3765, -71.2356),  # Waltham, MA
+    "warehouse_4": (42.1306, -71.0412),  # Avon, MA
+}
 
 
 def fail(msg: str) -> None:
@@ -74,20 +81,33 @@ def main() -> None:
         fail(f"v_map_pins rows={pin_n}, expected {EXPECTED_COUNTS['pin_rows']}")
     ok(f"v_map_pins rows = {pin_n}")
 
-    # Brand scrub: real_site must not contain retailer brand if column present
+    # Map pins sit at town centers. No street addresses, no real_site column.
     with PINS_CSV.open(newline="", encoding="utf-8") as f:
-        pins = list(csv.DictReader(f))
-    for row in pins:
-        site = (row.get("real_site") or "").strip().lower()
-        if any(b in site for b in ("costco", "bj's", "bjs", "sam's", "sams")):
-            fail(f"v_map_pins real_site still branded: {row.get('real_site')!r}")
-    ok("v_map_pins real_site scrubbed (public pin only / empty)")
-
+        pin_reader = csv.DictReader(f)
+        pin_fields = pin_reader.fieldnames or []
+        pins = list(pin_reader)
     with STORE_CSV.open(newline="", encoding="utf-8") as f:
-        store_fields = csv.DictReader(f).fieldnames or []
-    if "real_site" in store_fields:
-        fail("dim_store still has real_site column (remove for public release)")
-    ok("dim_store has no real_site column")
+        store_reader = csv.DictReader(f)
+        store_fields = store_reader.fieldnames or []
+        stores = list(store_reader)
+
+    for name, fields in (("v_map_pins", pin_fields), ("dim_store", store_fields)):
+        if "real_site" in fields:
+            fail(f"{name} still has real_site column (remove for public release)")
+        ok(f"{name} has no real_site column")
+
+    for name, rows in (("v_map_pins", pins), ("dim_store", stores)):
+        for row in rows:
+            label = row.get("store_name", "")
+            want = TOWN_CENTERS.get(label)
+            if want is None:
+                fail(f"{name} unexpected store_name {label!r}")
+            got = (round(float(row["lat"]), 4), round(float(row["lon"]), 4))
+            if got != want:
+                fail(f"{name} {label} pin at {got}, expected town center {want}")
+            if any(ch.isdigit() for ch in row.get("map_label", "").replace(label, "")):
+                fail(f"{name} {label} map_label looks like a street address: {row['map_label']!r}")
+        ok(f"{name} pins sit at town centers (no street addresses)")
 
     # Locked KPI row
     with KPI_CSV.open(newline="", encoding="utf-8") as f:

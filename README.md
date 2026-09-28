@@ -6,12 +6,10 @@ Empty shelf. Full backroom. Phantom inventory.
 
 ## Honesty first
 
-- Inventory, SKUs, and day metrics are **synthetic**.
-- Map pins use **real publicly listed warehouse addresses** (lat/long) only so the Massachusetts map looks real.
-- This demo is **not affiliated** with Costco, BJ’s, or Sam’s Club.
-- Public CSVs use `warehouse_N` labels and street addresses only — no retailer brand on chips or store display fields.
+Synthetic data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer.
 
-**Sample scale:** 3 clubs + 1 DC, 40 SKUs, check window 2026-09-09 → 2026-09-22 (14 days). Locked check day: **2026-09-22**.
+Public CSVs use `warehouse_N` labels only — no retailer brand on chips or store display fields.
+
 
 ## Metrics (plain English)
 
@@ -40,6 +38,24 @@ python3 scripts/verify_kpis.py
 
 Expected: `ALL PASS — warehouse_1 @ 2026-09-22: 22.5% / 7 / 6`
 
+## Allocation module (v0.2)
+
+When a purchase order lands at the DC (warehouse_4), how many cases go to each club, and should any club send stock to another?
+
+- `sql/03_allocation_schema.sql` and `sql/04_allocation.sql`: T-SQL tables and views.
+- Splits PO-26092201 (98 cases, 12 SKUs) across the 3 clubs by weeks of supply, in whole case packs. 60 cases ship, 38 stay at the DC because no club needs them.
+- One store-to-store transfer where one club is under 1 week of supply and another is over 4.
+- Club-SKUs under 1 week of supply: 40 before, 32 after.
+- Sales, case packs and the PO are synthetic, like the rest of Mirage.
+
+Rules, decisions and limits: [`docs/allocation.md`](docs/allocation.md).
+
+```bash
+python3 scripts/verify_allocation.py
+```
+
+Expected last line: `ALL PASS - PO 98 cases: 60 allocated, 38 held at DC; 1 transfer(s); club-SKUs under 1 week of supply 40 -> 32`
+
 ## Folder map
 
 | Path | What |
@@ -52,6 +68,10 @@ Expected: `ALL PASS — warehouse_1 @ 2026-09-22: 22.5% / 7 / 6`
 | `docs/board_data.json` | Board payload (same grain as extracts) |
 | `docs/screenshots/` | Desktop / tablet captures |
 | `scripts/verify_kpis.py` | Stdlib KPI lock checker |
+| `scripts/verify_allocation.py` | Stdlib allocation checker |
+| `scripts/gen_allocation_data.py` | Seeded generator for the allocation inputs |
+| `scripts/export_allocation_extracts.py` | Rebuilds allocation extracts in DuckDB |
+| `docs/allocation.md` | Allocation rules, decisions, limits |
 | `INSTALL.md` | Step-by-step install + proof commands |
 
 ## How to open the board
