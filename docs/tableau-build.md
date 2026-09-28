@@ -1,4 +1,4 @@
-# Mirage — Tableau Public build
+# Mirage - Tableau Public build
 
 Use the extracts below in Tableau Public / Desktop, then publish when ready.
 
@@ -18,14 +18,14 @@ Relationships: `store_id` (+ `snapshot_date` where needed).
 
 ## Dashboard layout
 
-1. **Chips** — filter on `chip_label` (`warehouse_1` / `warehouse_2` / `warehouse_3`). warehouse_4 is DC / supply pin — not a floor KPI chip.
-2. **Gap rate** — `gap_rate` from KPIs; show `gap_ceiling` (15%); subtitle `gap_sku_count of assortment_sku_count`.
-3. **Phantom SKUs** — `phantom_sku_count` → action: recount / system fix.
-4. **Backroom rescue** — `backroom_rescue_sku_count` → action: floor pull from backroom.
-5. **Gaps by aisle** — bar on `v_gaps_by_category`.
-6. **Open exceptions** — rows where `is_shelf_gap = 1`; icons from `is_phantom` / `is_backroom_rescue`; columns SKU, category, book (`system_on_hand_qty`), backroom, **action_label**.
-7. **Shelf pull** — selected exception with `is_backroom_rescue = 1` (default Bottled Water on warehouse_1 when present).
-8. **Map** — Tableau map on `v_map_pins` lat/lon; warehouse_4 labeled **supply pin only — no floor KPIs**.
+1. **Chips** - filter on `chip_label` (`warehouse_1` / `warehouse_2` / `warehouse_3`). warehouse_4 is DC / supply pin - not a floor KPI chip.
+2. **Gap rate** - `gap_rate` from KPIs; show `gap_ceiling` (15%); subtitle `gap_sku_count of assortment_sku_count`.
+3. **Phantom SKUs** - `phantom_sku_count` → action: recount / system fix.
+4. **Backroom rescue** - `backroom_rescue_sku_count` → action: floor pull from backroom.
+5. **Gaps by aisle** - bar on `v_gaps_by_category`.
+6. **Open exceptions** - rows where `is_shelf_gap = 1`; icons from `is_phantom` / `is_backroom_rescue`; columns SKU, category, book (`system_on_hand_qty`), backroom, **action_label**.
+7. **Shelf pull** - selected exception with `is_backroom_rescue = 1` (default Bottled Water on warehouse_1 when present).
+8. **Map** - Tableau map on `v_map_pins` lat/lon; warehouse_4 labeled **supply pin only - no floor KPIs**.
 
 ### Action labels (from `action_label`)
 

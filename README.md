@@ -2,27 +2,24 @@
 
 Empty shelf. Full backroom. Phantom inventory.
 
-**Purpose:** Show where the club floor is empty, and whether the next step is a recount, a backroom pull, or a replenish/order.
+I built this so a floor lead can see which empty shelves are a recount, which are a backroom pull, and which need a real order. Then, when a PO lands at the DC, how many whole cases go to each club, and whether one club should ship to another.
 
-## Honesty first
+## What this is (and isn't)
 
-Synthetic data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer.
+Synthetic data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer. Public files use `warehouse_1`…`warehouse_4` only.
 
-Public CSVs use `warehouse_N` labels only — no retailer brand on chips or store display fields.
+## Gap board
 
-
-## Metrics (plain English)
-
-| Metric | Meaning | Next step when flagged |
+| Metric | What it means | What to do |
 | --- | --- | --- |
-| **Gap rate** | Share of assortment with floor qty = 0 | Dig into exception type |
-| **Phantom SKUs** | Floor empty, system still shows on-hand | Recount / system fix |
-| **Backroom rescue** | Floor empty, backroom > 0 | Floor pull from backroom |
-| **Pure gap** | Floor empty, no backroom, no book | Replenish / order |
+| **Gap rate** | Share of assortment with floor qty = 0 | Open the exception list |
+| **Phantom SKUs** | Floor empty, system still shows on-hand | Recount / fix the book |
+| **Backroom rescue** | Floor empty, backroom has stock | Pull to the floor |
+| **Pure gap** | Floor empty, no backroom, book is zero | Replenish / order |
 
-Formulas and talk tracks: [`docs/metrics.md`](docs/metrics.md).
+More detail: [`docs/metrics.md`](docs/metrics.md).
 
-## Locked check — warehouse_1 · 2026-09-22
+### Locked check — warehouse_1 · 2026-09-22
 
 | KPI | Value |
 | --- | --- |
@@ -30,74 +27,43 @@ Formulas and talk tracks: [`docs/metrics.md`](docs/metrics.md).
 | Phantom SKUs | **7** |
 | Backroom rescue | **6** |
 
-Prove it without SQL Server:
-
 ```bash
 python3 scripts/verify_kpis.py
 ```
 
-Expected: `ALL PASS — warehouse_1 @ 2026-09-22: 22.5% / 7 / 6`
+You should see: `ALL PASS — warehouse_1 @ 2026-09-22: 22.5% / 7 / 6`
 
-## Allocation module (v0.2)
+## Allocation (PO split + one transfer)
 
-When a purchase order lands at the DC (warehouse_4), how many cases go to each club, and should any club send stock to another?
+PO-26092201 hits warehouse_4 with **98** cases. The plan ships **60** to the three clubs in whole cases, keeps **38** at the DC (nobody needs them), and runs **one** club-to-club move when one club is under 1 week of supply and another is over 4 on the same item. Club-SKUs under 1 week go from **40 → 32**.
 
-- `sql/03_allocation_schema.sql` and `sql/04_allocation.sql`: T-SQL tables and views.
-- Splits PO-26092201 (98 cases, 12 SKUs) across the 3 clubs by weeks of supply, in whole case packs. 60 cases ship, 38 stay at the DC because no club needs them.
-- One store-to-store transfer where one club is under 1 week of supply and another is over 4.
-- Club-SKUs under 1 week of supply: 40 before, 32 after.
-- Sales, case packs and the PO are synthetic, like the rest of Mirage.
-
-Rules, decisions and limits: [`docs/allocation.md`](docs/allocation.md).
+Why need beats sales share, what largest remainder means, why counted units (not the system book), and why only one transfer: [`docs/allocation.md`](docs/allocation.md). Read that before you interview on this.
 
 ```bash
 python3 scripts/verify_allocation.py
 ```
 
-Expected last line: `ALL PASS - PO 98 cases: 60 allocated, 38 held at DC; 1 transfer(s); club-SKUs under 1 week of supply 40 -> 32`
+Last line should be: `ALL PASS - PO 98 cases: 60 allocated, 38 held at DC; 1 transfer(s); club-SKUs under 1 week of supply 40 -> 32`
 
-## Folder map
+T-SQL: `sql/03_allocation_schema.sql`, `sql/04_allocation.sql`.
 
-| Path | What |
-| --- | --- |
-| `sql/` | T-SQL schema, seed, KPI views |
-| `data/` | `dim_*` + `fact_inventory_daily.csv` |
-| `data/tableau/` | Extracts for Tableau Public / Desktop |
-| `docs/` | Metrics, map pins, Tableau build notes |
-| `docs/index.html` | Interactive gap board (GitHub Pages) |
-| `docs/board_data.json` | Board payload (same grain as extracts) |
-| `docs/screenshots/` | Desktop / tablet captures |
-| `scripts/verify_kpis.py` | Stdlib KPI lock checker |
-| `scripts/verify_allocation.py` | Stdlib allocation checker |
-| `scripts/gen_allocation_data.py` | Seeded generator for the allocation inputs |
-| `scripts/export_allocation_extracts.py` | Rebuilds allocation extracts in DuckDB |
-| `docs/allocation.md` | Allocation rules, decisions, limits |
-| `INSTALL.md` | Step-by-step install + proof commands |
-
-## How to open the board
-
-**Local:** open [`docs/index.html`](docs/index.html) in a browser (serve the folder if `fetch` is blocked by `file://`):
+## Open the board
 
 ```bash
 cd docs && python3 -m http.server 8080
-# then visit http://localhost:8080/
+# http://localhost:8080/
 ```
 
-**GitHub Pages:** Settings → Pages → Deploy from branch → folder **`/docs`**.  
-The board is interactive: club chips, KPI tiles, exception list, action labels, shelf-pull panel, warehouse_4 supply pin.
+GitHub Pages: Settings → Pages → branch, folder **`/docs`**.
 
-Chips: `warehouse_1` (Everett), `warehouse_2` (Dedham), `warehouse_3` (Waltham).  
-`warehouse_4` (Avon) is a **supply pin only — no floor KPIs**.
+Clubs: `warehouse_1` (Everett), `warehouse_2` (Dedham), `warehouse_3` (Waltham).  
+`warehouse_4` (Avon) is supply only. No floor KPIs there.
 
-## How to run SQL
+## Run the SQL
 
-1. Install SQL Server Developer (or Azure SQL) + Azure Data Studio / SSMS.
-2. Create an empty database (e.g. `mirage`).
-3. Run in order:
-   - `sql/00_schema.sql`
-   - `sql/01_seed.sql`
-   - `sql/02_metrics.sql`
-4. Spot-check:
+1. SQL Server Developer (or Azure SQL) + Azure Data Studio / SSMS.
+2. Empty database, e.g. `mirage`.
+3. Run in order: `sql/00_schema.sql` → `01_seed.sql` → `02_metrics.sql` → (optional) `03_allocation_schema.sql` → `04_allocation.sql`.
 
 ```sql
 SELECT gap_rate, gap_sku_count, phantom_sku_count, backroom_rescue_sku_count
@@ -106,39 +72,48 @@ WHERE store_name = N'warehouse_1' AND snapshot_date = '2026-09-22';
 -- expect 0.2250, 9, 7, 6
 ```
 
-Full installer proof path: [`INSTALL.md`](INSTALL.md).
+Step-by-step proof: [`INSTALL.md`](INSTALL.md).
 
-## How to point Tableau at extracts
+## Tableau
 
-1. Tableau Public or Desktop → connect to Text file.
-2. Open each CSV under `data/tableau/` (see [`docs/tableau-build.md`](docs/tableau-build.md)).
-3. Relate on `store_id` (+ `snapshot_date` where needed).
-4. Build chips → tiles → exception queue → map. Match the board layout.
+Connect Tableau Public/Desktop to the CSVs under `data/tableau/`. Build notes: [`docs/tableau-build.md`](docs/tableau-build.md).
+
+## What's in the folder
+
+| Path | What |
+| --- | --- |
+| `sql/` | Schema, seed, gap views, allocation |
+| `data/` | Dims, inventory, sales, PO, packs |
+| `data/tableau/` | Extracts |
+| `docs/` | Board (`index.html`), metrics, allocation writeup |
+| `docs/data/board_data.json` | Gap board feed |
+| `docs/data/allocation_board.json` | Allocation strip feed |
+| `scripts/verify_kpis.py` | Gap lock (stdlib) |
+| `scripts/verify_allocation.py` | Allocation lock (stdlib) |
 
 ## Screenshots
 
 | Capture | File |
 | --- | --- |
-| House UI · desktop 1440 | [`docs/screenshots/desktop_1440_house_ui.png`](docs/screenshots/desktop_1440_house_ui.png) |
-| House UI · tablet 1024 | [`docs/screenshots/tablet_1024_house_ui.png`](docs/screenshots/tablet_1024_house_ui.png) |
+| Desktop 1440 | [`docs/screenshots/desktop_1440_house_ui.png`](docs/screenshots/desktop_1440_house_ui.png) |
+| Tablet 1024 | [`docs/screenshots/tablet_1024_house_ui.png`](docs/screenshots/tablet_1024_house_ui.png) |
 
-Captions: warehouse_1 open queue on 2026-09-22 — gap **22.5%**, phantom **7**, rescue **6**, action labels on each row.  
-Interactive Pages board (`docs/index.html`) ships the polished data shell; additional house chrome may arrive in a later pass.
+warehouse_1 on 2026-09-22: gap **22.5%**, phantom **7**, rescue **6**.
 
 ## Map pins
 
-See [`docs/map-pins-ma.md`](docs/map-pins-ma.md). Public labels are `warehouse_1`…`warehouse_4` with city, street, and lat/lon only.
+[`docs/map-pins-ma.md`](docs/map-pins-ma.md). Labels are `warehouse_N` + city / street / lat-lon only.
 
-## Troubleshooting
+## If something breaks
 
 | Issue | Fix |
 | --- | --- |
-| Board blank / `fetch` fails on `file://` | Serve `docs/` with `python3 -m http.server` |
-| `verify_kpis.py` FAIL on gap_rate | Confirm you did not edit `data/tableau/v_store_day_kpis.csv` |
-| Tableau map empty | Use `v_map_pins.csv` lat/lon; set geographic roles |
-| warehouse_4 shows no KPIs | Expected — supply pin only; select warehouse_1–3 |
-| SQL seed fails on FK | Run `00_schema` → `01_seed` → `02_metrics` on a fresh DB |
-| Pages 404 | Repo Settings → Pages → source branch, folder `/docs` |
+| Board blank on `file://` | Serve `docs/` with `python3 -m http.server` |
+| `verify_kpis.py` fails gap_rate | Don't edit `data/tableau/v_store_day_kpis.csv` |
+| Tableau map empty | Geographic roles on `v_map_pins.csv` lat/lon |
+| warehouse_4 has no KPIs | Expected. Use warehouse_1–3 |
+| SQL seed FK errors | Fresh DB, run scripts in order |
+| Pages 404 | Pages source = branch, folder `/docs` |
 
 ## License
 

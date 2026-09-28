@@ -1,10 +1,10 @@
-# Mirage — Install & proof
+# Mirage install
 
-Two paths. Recruiters can use **Path A** (no SQL Server). Analysts who want the T-SQL layer use **Path B**.
+Two paths. Path A is Python only (no SQL Server). Path B is the T-SQL layer.
 
 ---
 
-## Path A — Python proof (recommended, ~30 seconds)
+## Path A - Python proof (recommended, ~30 seconds)
 
 Requires: Python 3.8+ (stdlib only).
 
@@ -35,7 +35,7 @@ PASS  warehouse_1 2026-09-22 phantom_sku_count = 7
 PASS  warehouse_1 2026-09-22 backroom_rescue_sku_count = 6
 PASS  v_inventory_flags cross-check: gaps=9 phantom=7 rescue=6
 
-ALL PASS — warehouse_1 @ 2026-09-22: 22.5% / 7 / 6
+ALL PASS - warehouse_1 @ 2026-09-22: 22.5% / 7 / 6
 ```
 
 Locked KPIs: **22.5% / 7 / 6**.
@@ -43,18 +43,18 @@ Locked KPIs: **22.5% / 7 / 6**.
 Allocation checker ends with:
 `ALL PASS - PO 98 cases: 60 allocated, 38 held at DC; 1 transfer(s); club-SKUs under 1 week of supply 40 -> 32`
 
-### Open the interactive board
+### Open the board
 
 ```bash
 cd docs
 python3 -m http.server 8080
 ```
 
-Visit `http://localhost:8080/` — chips, tiles, exception list, actions.
+Open `http://localhost:8080/`.
 
 ---
 
-## Path B — SQL Server Developer / Azure Data Studio
+## Path B - SQL Server Developer / Azure Data Studio
 
 ### 1. Install
 
@@ -120,7 +120,7 @@ WHERE store_name = N'warehouse_1'
 | phantom_sku_count | 7 |
 | backroom_rescue_sku_count | 6 |
 
-**Optional — still run the Python proof on the CSVs**
+**Optional - still run the Python proof on the CSVs**
 
 ```bash
 python3 scripts/verify_kpis.py
@@ -128,7 +128,7 @@ python3 scripts/verify_kpis.py
 
 ---
 
-## Path C — Tableau extracts
+## Path C - Tableau extracts
 
 1. Open Tableau Public / Desktop.
 2. Connect → Text file → `data/tableau/`.
