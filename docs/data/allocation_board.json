@@ -11,10 +11,10 @@
     "cases_held_at_dc": 38,
     "tiles": [
       "98 cases arrived at the DC",
-      "60 cases go to clubs \u00b7 38 stay at DC (nobody needs them)",
-      "Clubs short: 40 \u2192 32 after this plan"
+      "60 cases go to clubs · 38 stay at DC (nobody needs them)",
+      "Clubs short: 40 → 32 after this plan"
     ],
-    "plain": "98 cases arrived at the DC. 60 cases go to clubs \u00b7 38 stay at DC (nobody needs them)."
+    "plain": "98 cases arrived at the DC. 60 cases go to clubs · 38 stay at DC (nobody needs them)."
   },
   "po_rows": [
     {
@@ -25,7 +25,7 @@
       "warehouse_2": 1,
       "warehouse_3": 1,
       "held_at_dc": 0,
-      "line": "Disinfecting Wipes 3pk \u00b7 warehouse_1 10 \u00b7 warehouse_2 1 \u00b7 warehouse_3 1 \u00b7 0 left at DC"
+      "line": "Disinfecting Wipes 3pk · Everett 10 · Dedham 1 · Waltham 1 · 0 left at DC"
     },
     {
       "sku_id": "551902",
@@ -35,7 +35,7 @@
       "warehouse_2": 5,
       "warehouse_3": 0,
       "held_at_dc": 0,
-      "line": "Rotisserie Chicken \u00b7 warehouse_1 4 \u00b7 warehouse_2 5 \u00b7 warehouse_3 0 \u00b7 0 left at DC"
+      "line": "Rotisserie Chicken · Everett 4 · Dedham 5 · Waltham 0 · 0 left at DC"
     },
     {
       "sku_id": "118670",
@@ -45,7 +45,7 @@
       "warehouse_2": 2,
       "warehouse_3": 1,
       "held_at_dc": 0,
-      "line": "Pasta Sauce Twin Pack \u00b7 warehouse_1 5 \u00b7 warehouse_2 2 \u00b7 warehouse_3 1 \u00b7 0 left at DC"
+      "line": "Pasta Sauce Twin Pack · Everett 5 · Dedham 2 · Waltham 1 · 0 left at DC"
     },
     {
       "sku_id": "118634",
@@ -55,7 +55,7 @@
       "warehouse_2": 2,
       "warehouse_3": 2,
       "held_at_dc": 0,
-      "line": "Bottled Water 40pk \u00b7 warehouse_1 3 \u00b7 warehouse_2 2 \u00b7 warehouse_3 2 \u00b7 0 left at DC"
+      "line": "Bottled Water 40pk · Everett 3 · Dedham 2 · Waltham 2 · 0 left at DC"
     },
     {
       "sku_id": "118690",
@@ -65,7 +65,7 @@
       "warehouse_2": 2,
       "warehouse_3": 0,
       "held_at_dc": 4,
-      "line": "Coffee Pods 100ct \u00b7 warehouse_1 4 \u00b7 warehouse_2 2 \u00b7 warehouse_3 0 \u00b7 4 left at DC"
+      "line": "Coffee Pods 100ct · Everett 4 · Dedham 2 · Waltham 0 · 4 left at DC"
     },
     {
       "sku_id": "118680",
@@ -75,7 +75,7 @@
       "warehouse_2": 1,
       "warehouse_3": 3,
       "held_at_dc": 0,
-      "line": "Olive Oil 2L \u00b7 warehouse_1 2 \u00b7 warehouse_2 1 \u00b7 warehouse_3 3 \u00b7 0 left at DC"
+      "line": "Olive Oil 2L · Everett 2 · Dedham 1 · Waltham 3 · 0 left at DC"
     },
     {
       "sku_id": "990130",
@@ -85,7 +85,7 @@
       "warehouse_2": 2,
       "warehouse_3": 1,
       "held_at_dc": 0,
-      "line": "Blueberries Pint \u00b7 warehouse_1 2 \u00b7 warehouse_2 2 \u00b7 warehouse_3 1 \u00b7 0 left at DC"
+      "line": "Blueberries Pint · Everett 2 · Dedham 2 · Waltham 1 · 0 left at DC"
     },
     {
       "sku_id": "990110",
@@ -95,7 +95,7 @@
       "warehouse_2": 2,
       "warehouse_3": 0,
       "held_at_dc": 10,
-      "line": "Bag Bag 5lb \u00b7 warehouse_1 2 \u00b7 warehouse_2 2 \u00b7 warehouse_3 0 \u00b7 10 left at DC"
+      "line": "Bag Bag 5lb · Everett 2 · Dedham 2 · Waltham 0 · 10 left at DC"
     },
     {
       "sku_id": "229045",
@@ -105,7 +105,7 @@
       "warehouse_2": 3,
       "warehouse_3": 0,
       "held_at_dc": 8,
-      "line": "Chicken Breast Family Pack \u00b7 warehouse_1 0 \u00b7 warehouse_2 3 \u00b7 warehouse_3 0 \u00b7 8 left at DC"
+      "line": "Chicken Breast Family Pack · Everett 0 · Dedham 3 · Waltham 0 · 8 left at DC"
     },
     {
       "sku_id": "441210",
@@ -115,7 +115,7 @@
       "warehouse_2": 0,
       "warehouse_3": 0,
       "held_at_dc": 7,
-      "line": "Ballpoint Pens 60ct \u00b7 warehouse_1 0 \u00b7 warehouse_2 0 \u00b7 warehouse_3 0 \u00b7 7 left at DC"
+      "line": "Ballpoint Pens 60ct · Everett 0 · Dedham 0 · Waltham 0 · 7 left at DC"
     },
     {
       "sku_id": "774040",
@@ -125,7 +125,7 @@
       "warehouse_2": 0,
       "warehouse_3": 0,
       "held_at_dc": 6,
-      "line": "LED Bulbs 8pk \u00b7 warehouse_1 0 \u00b7 warehouse_2 0 \u00b7 warehouse_3 0 \u00b7 6 left at DC"
+      "line": "LED Bulbs 8pk · Everett 0 · Dedham 0 · Waltham 0 · 6 left at DC"
     },
     {
       "sku_id": "229070",
@@ -135,23 +135,23 @@
       "warehouse_2": 0,
       "warehouse_3": 0,
       "held_at_dc": 3,
-      "line": "Salmon Fillet Pack \u00b7 warehouse_1 0 \u00b7 warehouse_2 0 \u00b7 warehouse_3 0 \u00b7 3 left at DC"
+      "line": "Salmon Fillet Pack · Everett 0 · Dedham 0 · Waltham 0 · 3 left at DC"
     }
   ],
   "transfers": [
     {
       "sku_id": "441220",
       "sku_name": "Sticky Notes Value",
-      "from": "warehouse_1",
-      "to": "warehouse_2",
+      "from": "Everett",
+      "to": "Dedham",
       "cases": 5,
-      "action": "Move 5 cases from warehouse_1 to warehouse_2",
-      "plain": "Sticky Notes Value \u00b7 warehouse_1 \u2192 warehouse_2 \u00b7 5 cases \u00b7 Move 5 cases from warehouse_1 to warehouse_2"
+      "action": "Move 5 cases from Everett to Dedham",
+      "plain": "Sticky Notes Value · Everett → Dedham · 5 cases · Move 5 cases from Everett to Dedham"
     }
   ],
   "before_after": {
     "under_1_wos_before": 40,
     "under_1_wos_after": 32,
-    "plain": "Clubs short: 40 \u2192 32 after this plan"
+    "plain": "Clubs short: 40 → 32 after this plan"
   }
 }

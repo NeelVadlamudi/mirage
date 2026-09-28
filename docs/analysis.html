@@ -34,9 +34,9 @@
 
     <div class="toolbar" role="group" aria-label="Warehouse filter">
       <span class="toolbar-label">Warehouse</span>
-      <button type="button" class="chip" data-club="warehouse_1" aria-pressed="true">warehouse_1</button>
-      <button type="button" class="chip" data-club="warehouse_2" aria-pressed="false">warehouse_2</button>
-      <button type="button" class="chip" data-club="warehouse_3" aria-pressed="false">warehouse_3</button>
+      <button type="button" class="chip" data-club="warehouse_1" aria-pressed="true">Everett</button>
+      <button type="button" class="chip" data-club="warehouse_2" aria-pressed="false">Dedham</button>
+      <button type="button" class="chip" data-club="warehouse_3" aria-pressed="false">Waltham</button>
       <button type="button" class="chip" data-club="all" aria-pressed="false">All clubs</button>
     </div>
 
@@ -61,13 +61,13 @@
 
       <section class="glass wide" aria-label="Today's truck plan">
         <h2 class="card-title">Today's truck plan</h2>
-        <p class="card-note">Cases by product · stacked warehouse_1 / 2 / 3 / hold at DC · DC-wide</p>
+        <p class="card-note">Cases by product · stacked Everett / Dedham / Waltham / hold at DC · DC-wide</p>
         <div id="po-stack" class="chart tall"></div>
       </section>
 
       <section class="glass wide" aria-label="Move between clubs">
         <h2 class="card-title">Move between clubs</h2>
-        <p class="card-note">Sticky Notes Value · 5 cases · warehouse_1 → warehouse_2</p>
+        <p class="card-note">Sticky Notes Value · 5 cases · Everett → Dedham</p>
         <div id="xfer" class="chart"></div>
       </section>
     </main>
@@ -123,6 +123,13 @@
       },
     };
     const CFG = { responsive: true, displayModeBar: true, displaylogo: false };
+    const WH_LABEL = {
+      warehouse_1: "Everett",
+      warehouse_2: "Dedham",
+      warehouse_3: "Waltham",
+      warehouse_4: "Avon",
+    };
+    const labelOf = (id) => WH_LABEL[id] || id;
     let club = "warehouse_1";
     let cache = {};
 
@@ -177,7 +184,7 @@
       const trendTraces = clubOrder
         .filter((name) => byClub[name])
         .map((name, i) => ({
-          name,
+          name: labelOf(name),
           x: byClub[name].x,
           y: byClub[name].y,
           type: "scatter",
@@ -188,7 +195,7 @@
       Object.keys(byClub).forEach((name) => {
         if (clubOrder.includes(name)) return;
         trendTraces.push({
-          name, x: byClub[name].x, y: byClub[name].y,
+          name: labelOf(name), x: byClub[name].x, y: byClub[name].y,
           type: "scatter", mode: "lines+markers",
           line: { color: ACCENT, width: 2 },
           marker: { color: ACCENT, size: 6 },
@@ -236,14 +243,14 @@
         {
           name: "Book is wrong",
           type: "bar",
-          x: kpiF.map((r) => r.chip_label),
+          x: kpiF.map((r) => labelOf(r.chip_label)),
           y: kpiF.map((r) => +r.phantom_sku_count),
           marker: { color: DANGER },
         },
         {
           name: "Stuck in backroom",
           type: "bar",
-          x: kpiF.map((r) => r.chip_label),
+          x: kpiF.map((r) => labelOf(r.chip_label)),
           y: kpiF.map((r) => +r.backroom_rescue_sku_count),
           marker: { color: RESCUE },
         },
@@ -251,7 +258,7 @@
         ...LAYOUT,
         barmode: "group",
         yaxis: { ...LAYOUT.yaxis, title: { ...LAYOUT.yaxis.title, text: "SKU count" } },
-        xaxis: { ...LAYOUT.xaxis, title: { ...LAYOUT.xaxis.title, text: "Warehouse" } },
+        xaxis: { ...LAYOUT.xaxis, title: { ...LAYOUT.xaxis.title, text: "Club" } },
       }, CFG);
 
       const flags = await loadCSV("v_inventory_flags.csv");
@@ -274,9 +281,9 @@
         ah.push(Math.max(0, p.received - p.w1 - p.w2 - p.w3));
       });
       Plotly.newPlot("po-stack", [
-        { name: "warehouse_1", type: "bar", x: labs, y: a1, marker: { color: SERIES[0] } },
-        { name: "warehouse_2", type: "bar", x: labs, y: a2, marker: { color: SERIES[1] } },
-        { name: "warehouse_3", type: "bar", x: labs, y: a3, marker: { color: SERIES[2] } },
+        { name: "Everett", type: "bar", x: labs, y: a1, marker: { color: SERIES[0] } },
+        { name: "Dedham", type: "bar", x: labs, y: a2, marker: { color: SERIES[1] } },
+        { name: "Waltham", type: "bar", x: labs, y: a3, marker: { color: SERIES[2] } },
         { name: "Hold at DC", type: "bar", x: labs, y: ah, marker: { color: SERIES[3] } },
       ], {
         ...LAYOUT,
@@ -289,7 +296,7 @@
         type: "sankey",
         orientation: "h",
         node: {
-          label: ["warehouse_1", "warehouse_2"],
+          label: ["Everett", "Dedham"],
           color: [ACCENT, RESCUE],
           pad: 18,
           thickness: 18,

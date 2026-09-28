@@ -96,7 +96,7 @@ UNION ALL SELECT 'fact_inventory_daily', COUNT(*) FROM dbo.fact_inventory_daily;
 | dim_sku | 40 |
 | fact_inventory_daily | 1680 |
 
-**Locked warehouse_1 KPIs (2026-09-22)**
+**Locked Everett KPIs (2026-09-22)**
 
 ```sql
 SELECT
@@ -136,7 +136,7 @@ python3 scripts/verify_kpis.py
 4. Relate on `store_id` (and `snapshot_date` where needed).
 5. Follow [`docs/tableau-build.md`](docs/tableau-build.md).
 
-Filter to `warehouse_1` + `2026-09-22` and confirm tiles: **22.5% · 7 · 6**.
+Filter to Everett (`warehouse_1`) + `2026-09-22` and confirm tiles: **22.5% · 7 · 6**.
 
 ---
 

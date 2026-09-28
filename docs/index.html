@@ -45,6 +45,7 @@
           <p class="subtitle">empty floor · book still shows stock</p>
         </div>
         <div class="top-tools">
+          <a class="nav-link" href="./analysis.html">Charts</a>
           <button type="button" class="tips-toggle" data-tips-toggle aria-pressed="false">Tips off</button>
           <time class="as-of" data-as-of datetime="2026-09-22T06:00:00">Snapshot · 2026-09-22 06:00</time>
         </div>
@@ -53,25 +54,25 @@
       <div class="switcher-bar">
         <div class="plate-slim" aria-hidden="true">
           <img data-plate-img src="./plates/bay.jpg" alt="" width="120" height="80" />
-          <span class="plate-cap" data-plate-cap>warehouse_1</span>
+          <span class="plate-cap" data-plate-cap>Everett</span>
         </div>
         <div class="switcher">
-          <div class="switcher-label">Warehouse</div>
-          <div class="wh-btns" role="group" aria-label="Select warehouse">
+          <div class="switcher-label">Sites</div>
+          <div class="wh-btns" role="group" aria-label="Select site">
             <button type="button" class="wh-btn" data-wh="warehouse_1" aria-pressed="true">
-              <span class="wh-id">warehouse_1</span>
+              <span class="wh-id">Everett</span>
               <span class="wh-meta" data-wh-meta="warehouse_1">Floor · Everett, MA</span>
             </button>
             <button type="button" class="wh-btn" data-wh="warehouse_2" aria-pressed="false">
-              <span class="wh-id">warehouse_2</span>
+              <span class="wh-id">Dedham</span>
               <span class="wh-meta" data-wh-meta="warehouse_2">Floor · Dedham, MA</span>
             </button>
             <button type="button" class="wh-btn" data-wh="warehouse_3" aria-pressed="false">
-              <span class="wh-id">warehouse_3</span>
+              <span class="wh-id">Waltham</span>
               <span class="wh-meta" data-wh-meta="warehouse_3">Floor · Waltham, MA</span>
             </button>
             <button type="button" class="wh-btn" data-wh="warehouse_4" aria-pressed="false">
-              <span class="wh-id">warehouse_4</span>
+              <span class="wh-id">Avon</span>
               <span class="wh-meta" data-wh-meta="warehouse_4">Supply · Avon, MA</span>
             </button>
           </div>
@@ -155,7 +156,7 @@
         <!-- warehouse_4 supply-only -->
         <section class="glass supply-panel" aria-label="Supply only">
           <div class="supply-head">
-            <h2 class="card-title">warehouse_4</h2>
+            <h2 class="card-title">Avon</h2>
             <span class="supply-badge">Supply only · no floor counts</span>
           </div>
           <div class="supply-facts">
@@ -178,7 +179,7 @@
             </div>
           </div>
           <p class="supply-note">
-            This pin is the distribution center. Floor empty-shelf counts live on warehouse_1–3.
+            This pin is the distribution center. Floor empty-shelf counts live on Everett / Dedham / Waltham.
             Today's truck plan below is DC-wide and stays the same no matter which warehouse you pick.
           </p>
         </section>
@@ -197,7 +198,7 @@
           <div class="truck-body">
             <div class="alloc-table-wrap">
               <div class="alloc-colhead" role="row">
-                <span>Product</span><span>w1</span><span>w2</span><span>w3</span><span>Hold DC</span>
+                <span>Product</span><span>Everett</span><span>Dedham</span><span>Waltham</span><span>Hold DC</span>
               </div>
               <div class="alloc-rows" data-alloc-rows role="rowgroup"></div>
             </div>
@@ -229,7 +230,7 @@
         </div>
         <div class="gloss-chip">
           <span class="gloss-term">DC</span>
-          <span class="gloss-plain">Distribution center — warehouse_4 ships to clubs.</span>
+          <span class="gloss-plain">Distribution center — Avon ships to clubs.</span>
         </div>
       </div>
 
@@ -237,7 +238,7 @@
         <p class="disclaimer">
           Synthetic warehouse and DC operations data. Pins mark town centers, not stores. Not affiliated with any retailer.
         </p>
-        <a class="repo" href="./analysis.html">Analysis charts</a> · <a class="repo" href="https://github.com/NeelVadlamudi/mirage">github.com/NeelVadlamudi/mirage</a>
+        <a class="repo" href="https://github.com/NeelVadlamudi/mirage">github.com/NeelVadlamudi/mirage</a>
       </footer>
 
       <p class="sr-only" aria-live="polite" data-live></p>

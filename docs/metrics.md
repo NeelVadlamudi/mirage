@@ -10,7 +10,7 @@ Share of stocked SKUs with nothing on the sales floor.
 
 `gap_rate = count(floor_qty = 0 AND is_in_assortment = 1) / count(is_in_assortment = 1)`
 
-Locked day at warehouse_1: **22.5%** (9 of 40).
+Locked day at Everett: **22.5%** (9 of 40).
 
 Next step: open the exception list.
 
@@ -43,13 +43,13 @@ Floor empty, backroom empty, system on-hand zero. Next step: replenish / order.
 
 ## Map pins
 
-| Label | Town | Role |
-| --- | --- | --- |
-| warehouse_1 | Everett, MA | Club |
-| warehouse_2 | Dedham, MA | Club |
-| warehouse_3 | Waltham, MA | Club |
-| warehouse_4 | Avon, MA | DC (no floor tiles) |
+| Label | Town | Role | Synthetic id |
+| --- | --- | --- | --- |
+| Everett | Everett, MA | Club | warehouse_1 |
+| Dedham | Dedham, MA | Club | warehouse_2 |
+| Waltham | Waltham, MA | Club | warehouse_3 |
+| Avon | Avon, MA | DC (no floor tiles) | warehouse_4 |
 
-warehouse_4 synthetic DC day context (2026-09-22): outbound cases staged 1840; late truck notices 3.
+Avon synthetic DC day context (2026-09-22): outbound cases staged 1840; late truck notices 3.
 
-Locked check: warehouse_1 · 2026-09-22 · **22.5% / 7 / 6**.
+Locked check: Everett · 2026-09-22 · **22.5% / 7 / 6**.

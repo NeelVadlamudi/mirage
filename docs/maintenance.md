@@ -1,7 +1,7 @@
 # Mirage maintenance module
 
 The shelf is only full if the equipment behind it keeps running. This module looks at
-the 60 material handling assets at warehouse_4 (the DC) and asks four questions a
+the 60 material handling assets at Avon (the DC) and asks four questions a
 facilities manager would ask.
 
 All inputs are **synthetic**, from `scripts/gen_maintenance_data.py` with a fixed seed.

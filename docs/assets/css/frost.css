@@ -761,3 +761,22 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; transition: none !important; }
 }
+
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(243, 148, 68, 0.4);
+  background: rgba(243, 148, 68, 0.1);
+  color: var(--accent);
+  white-space: nowrap;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.nav-link:hover {
+  background: rgba(243, 148, 68, 0.18);
+  border-color: rgba(243, 148, 68, 0.6);
+}

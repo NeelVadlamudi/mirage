@@ -5,45 +5,45 @@
     {
       "store_id": 101,
       "store_name": "warehouse_1",
-      "chip_label": "warehouse_1",
+      "chip_label": "Everett",
       "format_type": "club",
       "city": "Everett, MA",
       "lat": 42.4084,
       "lon": -71.0537,
-      "map_label": "warehouse_1",
+      "map_label": "Everett",
       "region": "Northeast"
     },
     {
       "store_id": 102,
       "store_name": "warehouse_2",
-      "chip_label": "warehouse_2",
+      "chip_label": "Dedham",
       "format_type": "club",
       "city": "Dedham, MA",
       "lat": 42.2418,
       "lon": -71.1662,
-      "map_label": "warehouse_2",
+      "map_label": "Dedham",
       "region": "Northeast"
     },
     {
       "store_id": 201,
       "store_name": "warehouse_3",
-      "chip_label": "warehouse_3",
+      "chip_label": "Waltham",
       "format_type": "club",
       "city": "Waltham, MA",
       "lat": 42.3765,
       "lon": -71.2356,
-      "map_label": "warehouse_3",
+      "map_label": "Waltham",
       "region": "Northeast"
     },
     {
       "store_id": 901,
       "store_name": "warehouse_4",
-      "chip_label": "warehouse_4",
+      "chip_label": "Avon",
       "format_type": "crossdock",
       "city": "Avon, MA",
       "lat": 42.1306,
       "lon": -71.0412,
-      "map_label": "warehouse_4",
+      "map_label": "Avon",
       "region": "Northeast"
     }
   ],
@@ -51,13 +51,13 @@
     "warehouse_1": {
       "store_id": 101,
       "store_name": "warehouse_1",
-      "chip_label": "warehouse_1",
+      "chip_label": "Everett",
       "city": "Everett, MA",
       "kpi": {
         "snapshot_date": "2026-09-22",
         "store_id": 101,
         "store_name": "warehouse_1",
-        "chip_label": "warehouse_1",
+        "chip_label": "Everett",
         "region": "Northeast",
         "city": "Everett, MA",
         "assortment_sku_count": 40,
@@ -92,7 +92,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "category": "Household",
           "gap_sku_count": 3,
           "store_name": "warehouse_1"
@@ -100,7 +100,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "category": "Baby",
           "gap_sku_count": 1,
           "store_name": "warehouse_1"
@@ -108,7 +108,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "category": "Dairy",
           "gap_sku_count": 1,
           "store_name": "warehouse_1"
@@ -116,7 +116,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "category": "Deli",
           "gap_sku_count": 1,
           "store_name": "warehouse_1"
@@ -124,7 +124,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "category": "GM",
           "gap_sku_count": 1,
           "store_name": "warehouse_1"
@@ -132,7 +132,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "category": "Grocery",
           "gap_sku_count": 1,
           "store_name": "warehouse_1"
@@ -140,7 +140,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 101,
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "category": "Meat",
           "gap_sku_count": 1,
           "store_name": "warehouse_1"
@@ -155,7 +155,7 @@
           "backroom_qty": 40.0,
           "system_on_hand_qty": 86.0,
           "store_name": "warehouse_1",
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "region": "Northeast",
           "city": "Everett, MA",
           "lat": 42.4084,
@@ -170,7 +170,7 @@
           "floor_share": 0.0,
           "backroom_share": 1.0,
           "exception_type": "phantom+rescue",
-          "action_label": "Floor pull \u00b7 recount"
+          "action_label": "Floor pull · recount"
         },
         {
           "snapshot_date": "2026-09-22",
@@ -180,7 +180,7 @@
           "backroom_qty": 20.0,
           "system_on_hand_qty": 20.0,
           "store_name": "warehouse_1",
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "region": "Northeast",
           "city": "Everett, MA",
           "lat": 42.4084,
@@ -195,7 +195,7 @@
           "floor_share": 0.0,
           "backroom_share": 1.0,
           "exception_type": "phantom+rescue",
-          "action_label": "Floor pull \u00b7 recount"
+          "action_label": "Floor pull · recount"
         },
         {
           "snapshot_date": "2026-09-22",
@@ -205,7 +205,7 @@
           "backroom_qty": 10.0,
           "system_on_hand_qty": 10.0,
           "store_name": "warehouse_1",
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "region": "Northeast",
           "city": "Everett, MA",
           "lat": 42.4084,
@@ -220,7 +220,7 @@
           "floor_share": 0.0,
           "backroom_share": 1.0,
           "exception_type": "phantom+rescue",
-          "action_label": "Floor pull \u00b7 recount"
+          "action_label": "Floor pull · recount"
         },
         {
           "snapshot_date": "2026-09-22",
@@ -230,7 +230,7 @@
           "backroom_qty": 12.0,
           "system_on_hand_qty": 52.0,
           "store_name": "warehouse_1",
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "region": "Northeast",
           "city": "Everett, MA",
           "lat": 42.4084,
@@ -245,7 +245,7 @@
           "floor_share": 0.0,
           "backroom_share": 1.0,
           "exception_type": "phantom+rescue",
-          "action_label": "Floor pull \u00b7 recount"
+          "action_label": "Floor pull · recount"
         },
         {
           "snapshot_date": "2026-09-22",
@@ -255,7 +255,7 @@
           "backroom_qty": 0.0,
           "system_on_hand_qty": 36.0,
           "store_name": "warehouse_1",
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "region": "Northeast",
           "city": "Everett, MA",
           "lat": 42.4084,
@@ -280,7 +280,7 @@
           "backroom_qty": 0.0,
           "system_on_hand_qty": 18.0,
           "store_name": "warehouse_1",
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "region": "Northeast",
           "city": "Everett, MA",
           "lat": 42.4084,
@@ -305,7 +305,7 @@
           "backroom_qty": 0.0,
           "system_on_hand_qty": 48.0,
           "store_name": "warehouse_1",
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "region": "Northeast",
           "city": "Everett, MA",
           "lat": 42.4084,
@@ -330,7 +330,7 @@
           "backroom_qty": 16.0,
           "system_on_hand_qty": 0.0,
           "store_name": "warehouse_1",
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "region": "Northeast",
           "city": "Everett, MA",
           "lat": 42.4084,
@@ -355,7 +355,7 @@
           "backroom_qty": 24.0,
           "system_on_hand_qty": 0.0,
           "store_name": "warehouse_1",
-          "chip_label": "warehouse_1",
+          "chip_label": "Everett",
           "region": "Northeast",
           "city": "Everett, MA",
           "lat": 42.4084,
@@ -381,7 +381,7 @@
         "backroom_qty": 40.0,
         "system_on_hand_qty": 86.0,
         "store_name": "warehouse_1",
-        "chip_label": "warehouse_1",
+        "chip_label": "Everett",
         "region": "Northeast",
         "city": "Everett, MA",
         "lat": 42.4084,
@@ -401,13 +401,13 @@
     "warehouse_2": {
       "store_id": 102,
       "store_name": "warehouse_2",
-      "chip_label": "warehouse_2",
+      "chip_label": "Dedham",
       "city": "Dedham, MA",
       "kpi": {
         "snapshot_date": "2026-09-22",
         "store_id": 102,
         "store_name": "warehouse_2",
-        "chip_label": "warehouse_2",
+        "chip_label": "Dedham",
         "region": "Northeast",
         "city": "Dedham, MA",
         "assortment_sku_count": 40,
@@ -442,7 +442,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 102,
-          "chip_label": "warehouse_2",
+          "chip_label": "Dedham",
           "category": "Baby",
           "gap_sku_count": 2,
           "store_name": "warehouse_2"
@@ -450,7 +450,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 102,
-          "chip_label": "warehouse_2",
+          "chip_label": "Dedham",
           "category": "Deli",
           "gap_sku_count": 1,
           "store_name": "warehouse_2"
@@ -458,7 +458,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 102,
-          "chip_label": "warehouse_2",
+          "chip_label": "Dedham",
           "category": "Office",
           "gap_sku_count": 1,
           "store_name": "warehouse_2"
@@ -473,7 +473,7 @@
           "backroom_qty": 24.0,
           "system_on_hand_qty": 59.0,
           "store_name": "warehouse_2",
-          "chip_label": "warehouse_2",
+          "chip_label": "Dedham",
           "region": "Northeast",
           "city": "Dedham, MA",
           "lat": 42.2418,
@@ -488,7 +488,7 @@
           "floor_share": 0.0,
           "backroom_share": 1.0,
           "exception_type": "phantom+rescue",
-          "action_label": "Floor pull \u00b7 recount"
+          "action_label": "Floor pull · recount"
         },
         {
           "snapshot_date": "2026-09-22",
@@ -498,7 +498,7 @@
           "backroom_qty": 0.0,
           "system_on_hand_qty": 12.0,
           "store_name": "warehouse_2",
-          "chip_label": "warehouse_2",
+          "chip_label": "Dedham",
           "region": "Northeast",
           "city": "Dedham, MA",
           "lat": 42.2418,
@@ -523,7 +523,7 @@
           "backroom_qty": 0.0,
           "system_on_hand_qty": 0.0,
           "store_name": "warehouse_2",
-          "chip_label": "warehouse_2",
+          "chip_label": "Dedham",
           "region": "Northeast",
           "city": "Dedham, MA",
           "lat": 42.2418,
@@ -548,7 +548,7 @@
           "backroom_qty": 0.0,
           "system_on_hand_qty": 0.0,
           "store_name": "warehouse_2",
-          "chip_label": "warehouse_2",
+          "chip_label": "Dedham",
           "region": "Northeast",
           "city": "Dedham, MA",
           "lat": 42.2418,
@@ -574,7 +574,7 @@
         "backroom_qty": 24.0,
         "system_on_hand_qty": 59.0,
         "store_name": "warehouse_2",
-        "chip_label": "warehouse_2",
+        "chip_label": "Dedham",
         "region": "Northeast",
         "city": "Dedham, MA",
         "lat": 42.2418,
@@ -594,13 +594,13 @@
     "warehouse_3": {
       "store_id": 201,
       "store_name": "warehouse_3",
-      "chip_label": "warehouse_3",
+      "chip_label": "Waltham",
       "city": "Waltham, MA",
       "kpi": {
         "snapshot_date": "2026-09-22",
         "store_id": 201,
         "store_name": "warehouse_3",
-        "chip_label": "warehouse_3",
+        "chip_label": "Waltham",
         "region": "Northeast",
         "city": "Waltham, MA",
         "assortment_sku_count": 40,
@@ -635,7 +635,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 201,
-          "chip_label": "warehouse_3",
+          "chip_label": "Waltham",
           "category": "Baby",
           "gap_sku_count": 1,
           "store_name": "warehouse_3"
@@ -643,7 +643,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 201,
-          "chip_label": "warehouse_3",
+          "chip_label": "Waltham",
           "category": "Household",
           "gap_sku_count": 1,
           "store_name": "warehouse_3"
@@ -651,7 +651,7 @@
         {
           "snapshot_date": "2026-09-22",
           "store_id": 201,
-          "chip_label": "warehouse_3",
+          "chip_label": "Waltham",
           "category": "Meat",
           "gap_sku_count": 1,
           "store_name": "warehouse_3"
@@ -666,7 +666,7 @@
           "backroom_qty": 16.0,
           "system_on_hand_qty": 30.0,
           "store_name": "warehouse_3",
-          "chip_label": "warehouse_3",
+          "chip_label": "Waltham",
           "region": "Northeast",
           "city": "Waltham, MA",
           "lat": 42.3765,
@@ -681,7 +681,7 @@
           "floor_share": 0.0,
           "backroom_share": 1.0,
           "exception_type": "phantom+rescue",
-          "action_label": "Floor pull \u00b7 recount"
+          "action_label": "Floor pull · recount"
         },
         {
           "snapshot_date": "2026-09-22",
@@ -691,7 +691,7 @@
           "backroom_qty": 24.0,
           "system_on_hand_qty": 37.0,
           "store_name": "warehouse_3",
-          "chip_label": "warehouse_3",
+          "chip_label": "Waltham",
           "region": "Northeast",
           "city": "Waltham, MA",
           "lat": 42.3765,
@@ -706,7 +706,7 @@
           "floor_share": 0.0,
           "backroom_share": 1.0,
           "exception_type": "phantom+rescue",
-          "action_label": "Floor pull \u00b7 recount"
+          "action_label": "Floor pull · recount"
         },
         {
           "snapshot_date": "2026-09-22",
@@ -716,7 +716,7 @@
           "backroom_qty": 0.0,
           "system_on_hand_qty": 20.0,
           "store_name": "warehouse_3",
-          "chip_label": "warehouse_3",
+          "chip_label": "Waltham",
           "region": "Northeast",
           "city": "Waltham, MA",
           "lat": 42.3765,
@@ -742,7 +742,7 @@
         "backroom_qty": 16.0,
         "system_on_hand_qty": 30.0,
         "store_name": "warehouse_3",
-        "chip_label": "warehouse_3",
+        "chip_label": "Waltham",
         "region": "Northeast",
         "city": "Waltham, MA",
         "lat": 42.3765,

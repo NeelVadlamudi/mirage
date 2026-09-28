@@ -1,10 +1,16 @@
 /* Mirage frost glance board — loads board_data + allocation_board */
 (() => {
   const PLATES = {
-    warehouse_1: { src: "./plates/bay.jpg", alt: "warehouse_1, Massachusetts" },
-    warehouse_2: { src: "./plates/harbor.jpg", alt: "warehouse_2, Massachusetts" },
-    warehouse_3: { src: "./plates/west.jpg", alt: "warehouse_3, Massachusetts" },
-    warehouse_4: { src: "./plates/avon.jpg", alt: "warehouse_4, Massachusetts" },
+    warehouse_1: { src: "./plates/bay.jpg", alt: "Everett, Massachusetts" },
+    warehouse_2: { src: "./plates/harbor.jpg", alt: "Dedham, Massachusetts" },
+    warehouse_3: { src: "./plates/west.jpg", alt: "Waltham, Massachusetts" },
+    warehouse_4: { src: "./plates/avon.jpg", alt: "Avon, Massachusetts" },
+  };
+  const WH_LABEL = {
+    warehouse_1: "Everett",
+    warehouse_2: "Dedham",
+    warehouse_3: "Waltham",
+    warehouse_4: "Avon",
   };
   const SUPPLY = {
     id: "warehouse_4",
@@ -50,7 +56,7 @@
       img.src = plate.src;
       img.alt = plate.alt;
     }
-    if (cap) cap.textContent = id;
+    if (cap) cap.textContent = WH_LABEL[id] || id;
   }
 
   function renderSwitcher() {
@@ -203,7 +209,7 @@
     const live = $("[data-live]");
     if (live) {
       live.textContent =
-        `${club.store_name}, empty shelves ${pct(kpi.gap_rate)}%, ` +
+        `${club.chip_label || WH_LABEL[state.clubId] || club.store_name}, empty shelves ${pct(kpi.gap_rate)}%, ` +
         `${int(kpi.gap_sku_count)} of ${int(kpi.assortment_sku_count)}, ` +
         `book-is-wrong ${int(kpi.phantom_sku_count)}, ` +
         `stuck-in-backroom ${int(kpi.backroom_rescue_sku_count)}, ` +
@@ -217,7 +223,7 @@
     const live = $("[data-live]");
     if (live) {
       live.textContent =
-        "warehouse_4, supply only, no floor counts. " +
+        "Avon, supply only, no floor counts. " +
         `${SUPPLY.cases_staged} cases staged · ${SUPPLY.late_truck_notices} late truck notices.`;
     }
   }
@@ -294,7 +300,7 @@
     const body = $("[data-tip-body]");
     if (isSupply) {
       body.textContent =
-        "warehouse_4 is supply only — no floor counts. Truck plan below is DC-wide and does not change with the club switcher.";
+        "Avon is supply only — no floor counts. Truck plan below is DC-wide and does not change with the club switcher.";
     } else {
       body.textContent =
         "Work the table top to bottom. Pull first clears empty shelves fastest. Today's truck plan is DC-wide — not filtered by this club.";

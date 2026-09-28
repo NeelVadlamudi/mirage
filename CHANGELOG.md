@@ -2,7 +2,7 @@
 
 ## 0.3.0 - 2026-09-28
 
-- Maintenance module at warehouse_4: 60 assets, 1,009 synthetic work orders (problem / cause / remedy).
+- Maintenance module at Avon: 60 assets, 1,009 synthetic work orders (problem / cause / remedy).
 - Missed or late PM → breakdown within 30 days 50.0% vs 25.8% after on-time PM (~33 extra breakdowns, $35.8K / year).
 - Reach trucks 6+ years old: 4.6x battery failures (lead, small newer sample).
 - Order picker need peaks at 20 vs fleet of 18; short in 5 of next 13 weeks.
@@ -23,8 +23,8 @@
 ## 0.1.0 - 2026-09-23
 
 - First public pack: synthetic club inventory, KPI views, Tableau extracts, interactive gap board.
-- Locked day warehouse_1 · 2026-09-22: gap 22.5% (9/40), phantom 7, rescue 6.
+- Locked day Everett · 2026-09-22: gap 22.5% (9/40), phantom 7, rescue 6.
 - Action on every open exception: recount, floor pull, or replenish.
-- warehouse_4 is supply only (no floor KPIs).
+- Avon is supply only (no floor KPIs).
 - `scripts/verify_kpis.py` so you can prove the numbers without SQL Server.
 - GitHub Pages board under `docs/`.

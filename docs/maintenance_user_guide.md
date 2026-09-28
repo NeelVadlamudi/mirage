@@ -1,6 +1,6 @@
 # How to use the maintenance report
 
-For supervisors and technicians at warehouse_4. One page. Open `docs/maintenance_report.pdf`.
+For supervisors and technicians at Avon. One page. Open `docs/maintenance_report.pdf`.
 
 ## What each panel tells you, and what to do
 

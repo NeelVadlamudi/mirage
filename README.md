@@ -8,7 +8,7 @@ Mirage is a distribution and club inventory project. Pick a club and a day. See 
 
 ## Data note
 
-All inventory, sales, work orders, and utility figures in this repository are synthetic. Map pins mark town centers, not stores. Not affiliated with any retailer. Clubs are `warehouse_1`, `warehouse_2`, `warehouse_3`. The DC is `warehouse_4`.
+All inventory, sales, work orders, and utility figures in this repository are synthetic. Map pins mark town centers, not stores. Not affiliated with any retailer. Clubs are Everett, Dedham, and Waltham. The DC is Avon. (Synthetic ids stay `warehouse_1`…`warehouse_4` in extracts.)
 
 ## Gap board
 
@@ -19,7 +19,7 @@ All inventory, sales, work orders, and utility figures in this repository are sy
 | **Stuck in backroom** | Floor empty; backroom has stock | Pull to the floor |
 | **Actually out** | Floor empty; backroom empty; book is zero | Replenish / order |
 
-Locked check day (**warehouse_1**, 2026-09-22):
+Locked check day (**Everett**, 2026-09-22):
 
 - Empty shelves: **22.5%** (9 of 40)
 - Book is wrong: **7**
@@ -35,11 +35,11 @@ Detail: [`docs/metrics.md`](docs/metrics.md).
 
 ## Allocation
 
-PO-26092201 arrives at warehouse_4 with **98** cases (12 SKUs).
+PO-26092201 arrives at Avon with **98** cases (12 SKUs).
 
 - **60** cases allocated to clubs (whole cases, by need)
 - **38** held at the DC (no club need)
-- **1** club-to-club transfer: Sticky Notes Value, 5 cases, warehouse_1 → warehouse_2
+- **1** club-to-club transfer: Sticky Notes Value, 5 cases, Everett → Dedham
 - Club-SKUs under 1 week of supply: **40 → 32**
 
 Rules and decisions: [`docs/allocation.md`](docs/allocation.md).
@@ -50,7 +50,7 @@ python3 scripts/verify_allocation.py
 
 Expected last line: `ALL PASS - PO 98 cases: 60 allocated, 38 held at DC; 1 transfer(s); club-SKUs under 1 week of supply 40 -> 32`
 
-## Maintenance (warehouse_4)
+## Maintenance (Avon)
 
 60 material-handling assets. 1,009 synthetic work orders with problem, cause, and remedy codes.
 
