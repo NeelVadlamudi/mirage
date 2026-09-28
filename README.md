@@ -2,68 +2,68 @@
 
 **Live board:** [https://neelvadlamudi.github.io/mirage/](https://neelvadlamudi.github.io/mirage/)
 
-Empty shelf. Full backroom. System still says we have stock.
+Empty shelf. Full backroom. System still shows stock.
 
+Mirage is a distribution and club inventory project. Pick a club and a day. See which shelves are empty, why, and what to do next. When a purchase order lands at the DC, see how many whole cases go to each club and whether one club should send stock to another. At the DC, track preventive maintenance cost, fleet coverage for peak weeks, and whether a lighting retrofit actually cut energy use after shipping volume is accounted for.
 
-I built this for people who run clubs and for people who hire analysts. One board. You pick a club and a day. You see how many shelves are empty, why each one is empty, and what to do next. When a truck of cases lands at the DC, you also see how many go to each club and whether one club should send stock to another.
+## Data note
 
-## Straight talk
+All inventory, sales, work orders, and utility figures in this repository are synthetic. Map pins mark town centers, not stores. Not affiliated with any retailer. Clubs are `warehouse_1`, `warehouse_2`, `warehouse_3`. The DC is `warehouse_4`.
 
-The data is made up for a portfolio demo. Map pins sit on town centers, not real stores. This is not affiliated with any retailer. Clubs are labeled `warehouse_1`, `warehouse_2`, `warehouse_3`. The DC is `warehouse_4`.
+## Gap board
 
-## What the board shows
-
-| Tile | In plain words | Next move |
+| Tile | Meaning | Next step |
 | --- | --- | --- |
-| **Empty shelves** | How much of the assortment has nothing on the floor | Open the list |
-| **Book is wrong** | Floor is empty but the system still shows stock | Recount |
-| **Stuck in backroom** | Floor is empty but the backroom has it | Pull it to the floor |
-| **Actually out** | Nothing on floor, nothing in back, book is zero | Order more |
+| **Empty shelves** | Share of assortment with nothing on the floor | Open the exception list |
+| **Book is wrong** | Floor empty; system still shows on-hand | Recount / correct the book |
+| **Stuck in backroom** | Floor empty; backroom has stock | Pull to the floor |
+| **Actually out** | Floor empty; backroom empty; book is zero | Replenish / order |
 
-On the locked check day (**warehouse_1**, Sep 22, 2026):
+Locked check day (**warehouse_1**, 2026-09-22):
 
-- Empty shelves: **22.5%** (9 of 40 items)
-- Book is wrong: **7** items
-- Stuck in backroom: **6** items
-
-Prove those three numbers on any laptop:
+- Empty shelves: **22.5%** (9 of 40)
+- Book is wrong: **7**
+- Stuck in backroom: **6**
 
 ```bash
 python3 scripts/verify_kpis.py
 ```
 
-## Where the truck goes (allocation)
+Expected: `ALL PASS — warehouse_1 @ 2026-09-22: 22.5% / 7 / 6`
 
-A purchase order lands at the DC: **98** cases across 12 items.
+Detail: [`docs/metrics.md`](docs/metrics.md).
 
-- **60** cases go out to the three clubs
-- **38** stay at the DC because no club needs them
-- **1** club-to-club move: Sticky Notes Value, 5 cases, from warehouse_1 to warehouse_2
-- Clubs short on stock: **40 → 32** after the plan
+## Allocation
 
-The short writeup a recruiter can read in two minutes: [`docs/allocation.md`](docs/allocation.md). That page is also the interview sheet (why need beats sales share, what largest remainder means, why 38 stay at the DC, why only one transfer, why we use counted units).
+PO-26092201 arrives at warehouse_4 with **98** cases (12 SKUs).
 
-Prove it:
+- **60** cases allocated to clubs (whole cases, by need)
+- **38** held at the DC (no club need)
+- **1** club-to-club transfer: Sticky Notes Value, 5 cases, warehouse_1 → warehouse_2
+- Club-SKUs under 1 week of supply: **40 → 32**
+
+Rules and decisions: [`docs/allocation.md`](docs/allocation.md).
 
 ```bash
 python3 scripts/verify_allocation.py
 ```
 
+Expected last line: `ALL PASS - PO 98 cases: 60 allocated, 38 held at DC; 1 transfer(s); club-SKUs under 1 week of supply 40 -> 32`
 
-## Equipment that keeps the shelf full (maintenance)
+## Maintenance (warehouse_4)
 
-warehouse_4 runs 60 pieces of material-handling gear and 1,009 work orders (synthetic).
+60 material-handling assets. 1,009 synthetic work orders with problem, cause, and remedy codes.
 
-| What a facilities lead asks | What the numbers say |
+| Question | Result |
 | --- | --- |
-| Do missed PMs cost us? | After a missed or late PM, the machine broke within 30 days **50.0%** of the time. After an on-time PM it was **25.8%**. About **33** extra breakdowns and **$35.8K** a year. |
-| Where do failures cluster? | Reach trucks 6+ years old had **4.6x** the battery failures of newer ones. Small newer sample (3 trucks), so treat it as a lead. |
-| Enough gear for peak? | December needs **20** order pickers against a fleet of **18**. Short in **5** of the next 13 weeks. |
-| Did the LED retrofit pay off? | **15.1%** less energy than a baseline that tracks shipping volume. Pays back in **17.5** months. |
+| Missed or late PM follow-up | Breakdown within 30 days **50.0%** vs **25.8%** after on-time PM. About **33** extra breakdowns and **$35.8K** / year. |
+| Failure concentration | Reach trucks 6+ years old: **4.6x** battery failures per truck vs newer units (3 newer trucks in sample). |
+| Peak fleet coverage | December need **20** order pickers vs fleet **18**. Short in **5** of the next 13 weeks. |
+| LED retrofit | **15.1%** below volume-adjusted energy baseline. Payback **17.5** months. |
 
-Interview sheet (read twice): [`docs/maintenance.md`](docs/maintenance.md).  
+Methods and limits: [`docs/maintenance.md`](docs/maintenance.md).  
 One-page report: [`docs/maintenance_report.pdf`](docs/maintenance_report.pdf).  
-Supervisor guide: [`docs/maintenance_user_guide.md`](docs/maintenance_user_guide.md).
+Operator guide: [`docs/maintenance_user_guide.md`](docs/maintenance_user_guide.md).
 
 ```bash
 python3 scripts/verify_maintenance.py
@@ -71,9 +71,9 @@ python3 scripts/verify_maintenance.py
 
 ## Open the board
 
-**Recruiters start here:** [https://neelvadlamudi.github.io/mirage/](https://neelvadlamudi.github.io/mirage/)
+https://neelvadlamudi.github.io/mirage/
 
-Local copy:
+Local:
 
 ```bash
 cd docs && python3 -m http.server 8080
@@ -81,11 +81,10 @@ cd docs && python3 -m http.server 8080
 
 Then open http://localhost:8080/
 
-## For people who want the SQL / Tableau layer
+## SQL and Tableau
 
-Install steps: [`INSTALL.md`](INSTALL.md).  
-Metric definitions: [`docs/metrics.md`](docs/metrics.md).  
-Tableau extracts sit under `data/tableau/`.
+Install: [`INSTALL.md`](INSTALL.md).  
+Tableau extracts: `data/tableau/`. Build notes: [`docs/tableau-build.md`](docs/tableau-build.md).
 
 ## Screenshots
 
@@ -93,9 +92,6 @@ Tableau extracts sit under `data/tableau/`.
 | --- | --- |
 | Desktop | [`docs/screenshots/desktop_1440.png`](docs/screenshots/desktop_1440.png) |
 | Phone | [`docs/screenshots/phone_390.png`](docs/screenshots/phone_390.png) |
-
-Live board: [https://neelvadlamudi.github.io/mirage/](https://neelvadlamudi.github.io/mirage/)
-
 
 ## License
 

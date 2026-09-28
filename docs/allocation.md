@@ -2,7 +2,7 @@
 
 The empty-shelf board tells you why a bay is empty. This page is the next conversation: a truck of cases hits the DC. Who gets what? Does one club send stock to another?
 
-Made-up data on purpose. Same clubs as the rest of Mirage.
+Synthetic data. Same clubs as the rest of Mirage.
 
 ## What happened on Sep 22, 2026
 
@@ -27,7 +27,7 @@ Check every number above with:
 python3 scripts/verify_allocation.py
 ```
 
-## Say this in an interview (no notes)
+## Design choices
 
 **We split by need, not by who sells the most.**  
 If warehouse_1 already sits on six weeks of an item, it does not get more just because it usually sells a lot. Need means "how many units until that club has about two weeks of stock." Clubs that are already fine get zero.

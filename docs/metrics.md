@@ -1,66 +1,55 @@
-# Mirage metrics (plain English)
+# Mirage metrics
 
-For a hiring manager or a floor lead. One screen. Numbers you can say out loud.
+Operations definitions for the gap board. Check window: 2026-09-09 to 2026-09-22.
 
-Check window: Sep 9 to Sep 22, 2026. Made-up data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer.
+Synthetic data. Pins mark town centers, not stores. Not affiliated with any retailer.
 
 ## Empty shelves (gap rate)
 
-Share of stocked items with nothing on the sales floor today.
+Share of stocked SKUs with nothing on the sales floor.
 
-On the locked day at warehouse_1 that is **22.5%** (9 of 40).
+`gap_rate = count(floor_qty = 0 AND is_in_assortment = 1) / count(is_in_assortment = 1)`
 
-Say it like: "About one in four items on the assortment is empty on the floor right now."
+Locked day at warehouse_1: **22.5%** (9 of 40).
 
-Next move: open the list. Each row already says what to do.
+Next step: open the exception list.
 
 ## Book is wrong (phantom)
 
-Floor is empty. The system still shows stock.
+Floor empty; system on-hand still greater than zero.
 
-On the locked day: **7** items.
+`is_phantom = 1 when floor_qty = 0 AND system_on_hand_qty > 0`
 
-Next move: recount. Fix the book.
+Locked day: **7** SKUs. Next step: recount / correct the book.
 
 ## Stuck in backroom (rescue)
 
-Floor is empty. The backroom has it.
+Floor empty; backroom quantity greater than zero.
 
-On the locked day: **6** items.
-
-Next move: pull it to the floor. If the book is also wrong, pull and recount.
+Locked day: **6** SKUs. Next step: pull to the floor.
 
 ## Actually out (pure gap)
 
-Floor empty, backroom empty, book is zero.
+Floor empty, backroom empty, system on-hand zero. Next step: replenish / order.
 
-Next move: order more.
+## Summary
 
-## How to read the four together
-
-| Tile | Question | Next move |
+| Metric | Question | Next step |
 | --- | --- | --- |
-| Empty shelves | How bad is empty-shelf today? | Open the list |
-| Book is wrong | How much of that is a bad book? | Recount |
-| Stuck in backroom | Is the stock just not on the floor? | Pull |
-| Actually out | Are we really out? | Order |
+| Empty shelves | How empty is the floor? | Open the list |
+| Book is wrong | How much emptiness is a bad book? | Recount |
+| Stuck in backroom | Is stock off the floor? | Pull |
+| Actually out | Are we out? | Order |
 
-## Clubs on the map
+## Map pins
 
 | Label | Town | Role |
 | --- | --- | --- |
 | warehouse_1 | Everett, MA | Club |
 | warehouse_2 | Dedham, MA | Club |
 | warehouse_3 | Waltham, MA | Club |
-| warehouse_4 | Avon, MA | DC only (no floor tiles) |
+| warehouse_4 | Avon, MA | DC (no floor tiles) |
 
-On the check day the DC shows synthetic outbound cases staged (1840) and late advance ship notices (3). That is context for the truck, not a floor score.
-
-## Formulas (for analysts who want them)
-
-- Empty shelves: count(floor = 0 and in assortment) / count(in assortment)
-- Book is wrong: floor = 0 and system on-hand > 0
-- Stuck in backroom: floor = 0 and backroom > 0
-- Actually out: floor empty, not phantom, not backroom rescue
+warehouse_4 synthetic DC day context (2026-09-22): outbound cases staged 1840; late truck notices 3.
 
 Locked check: warehouse_1 · 2026-09-22 · **22.5% / 7 / 6**.

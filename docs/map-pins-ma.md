@@ -1,6 +1,6 @@
 # Massachusetts map pins
 
-Synthetic data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer.
+Synthetic data for this project. Pins mark town centers, not stores. Not affiliated with any retailer.
 
 The four pins are the town centers of Everett, Dedham, Waltham, and Avon, Massachusetts. We picked town centers so the map shows real geography without pointing at any company's building. Each point is in the town's central area, rounded to 4 decimals.
 

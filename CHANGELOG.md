@@ -11,7 +11,7 @@
 
 ## 0.2.1 - 2026-09-28
 
-- Plain-English docs pass for recruiters and business readers. Same locked numbers.
+- Docs pass for clearer operations language. Same locked numbers.
 
 ## 0.2.0 - 2026-09-28
 
