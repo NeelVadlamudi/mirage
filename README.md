@@ -1,6 +1,6 @@
 # Mirage
 
-**Live board:** [https://neelvadlamudi.github.io/mirage/](https://neelvadlamudi.github.io/mirage/)
+**Live board:** https://neelvadlamudi.github.io/mirage/ · **Portfolio:** https://neelvadlamudi.github.io/neelresume/
 
 Empty shelf. Full backroom. System still shows stock.
 
