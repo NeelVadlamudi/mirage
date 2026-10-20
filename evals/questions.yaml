@@ -1,4 +1,4 @@
-# Mirage audit eval. Expected values are not written here: evals/mirage/expected.py recomputes them from the raw
+# Mirage audit eval. Expected values are not written here: evals/expected.py recomputes them from the raw
 # Mirage CSVs each run (see that file), and the check day must still give 22.5%, 7 and 6.
 # Types: gaps, why (case and next step), position, po, wos, propose (must call propose_action), refusal, multi.
 version: mirage-q30-v1
