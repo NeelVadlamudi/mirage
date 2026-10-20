@@ -50,6 +50,16 @@ python3 scripts/verify_allocation.py
 
 Expected last line: `ALL PASS - PO 98 cases: 60 allocated, 38 held at DC; 1 transfer(s); club-SKUs under 1 week of supply 40 -> 32`
 
+## Audit agent
+
+An audit agent answers questions such as "Why is Paper Towels 12pk empty at Everett on 2026-09-22?" It compares the floor count, the backroom count and the system on-hand figure, names the case (the record is wrong, stock is in the backroom, or truly out), and proposes the next step: recount, pull to the floor, or reorder.
+
+It never changes a record. A proposal waits in a queue until a person approves or rejects it, and each decision goes to an audit log with who decided and when.
+
+Its 30-question eval recomputes every expected value from these CSVs, using the logic of `verify_kpis.py` and `verify_allocation.py`. It stops unless the check day still gives 22.5% / 7 / 6.
+
+Code, eval and a recorded audit (question, tool calls, proposal, approval): [cdc-outbreak-dashboard, `mirage/`](https://github.com/NeelVadlamudi/cdc-outbreak-dashboard/tree/main/mirage).
+
 ## Maintenance (Avon)
 
 60 material-handling assets. 1,009 synthetic work orders with problem, cause, and remedy codes.
