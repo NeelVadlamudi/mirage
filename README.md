@@ -58,7 +58,24 @@ It never changes a record. A proposal waits in a queue until a person approves o
 
 Its 30-question eval recomputes every expected value from these CSVs, using the logic of `verify_kpis.py` and `verify_allocation.py`. It stops unless the check day still gives 22.5% / 7 / 6.
 
-Code, eval and a recorded audit (question, tool calls, proposal, approval): [cdc-outbreak-dashboard, `mirage/`](https://github.com/NeelVadlamudi/cdc-outbreak-dashboard/tree/main/mirage).
+Eval scores, recorded answers, the review queue and one recorded audit: [audit page](https://neelvadlamudi.github.io/mirage/audit.html) (`docs/audit.html`, data in `docs/data/audit_*.json`).
+
+- **Code** (`agent/`): a small agent loop and number checker (`loop.py`, `checker.py`), the tools (`tools.py`), the proposals and audit log (`state.py`), and the API (`api.py`, `routes.py`). It runs on Gemini Flash-Lite by default, or on Ollama with `AGENT_MODEL=ollama-local`.
+- **Read-only tools:** `list_shelf_gaps(club, day)`, `get_sku_position(club, sku, day)`, `get_po_allocation(po)` and `get_weeks_of_supply(club, sku)`. They query a DuckDB copy of `data/` that is opened read-only (`agent/build_db.py`).
+- **One write tool**, `propose_action(club, sku, action, reason)`. It only adds a row with status `waiting for approval` to a `proposals` table in a separate database (`MIRAGE_STATE_DB`). It writes nothing unless the action matches the case the read tools found for that club and SKU earlier in the run, and every number in the reason appears in those tool results.
+- **Approval:** `POST /api/proposals/{id}/approve` and `/reject` need `X-API-Key: <ADMIN_API_KEY>` and the deciding person's name. A decision is final; a second one returns 409.
+- **Limits:** `POST /api/mirage/ask` allows 4 a minute and 30 a day per address, 300 a day in total; proposals 3 a minute and 10 a day per address, 50 a day in total. Over the limit returns 429 with `Retry-After`. `RATE_LIMITS_ENABLED=false` turns them off for eval runs.
+- **Eval** (`evals/`): 30 questions. CI runs both checks, the tests, and rescores the recorded run. The `audit eval` workflow runs it live on Gemini (needs the `GEMINI_API_KEY` repository secret).
+- **Hosting:** `render.yaml` is a Render Blueprint for the API on the free plan (`GEMINI_API_KEY` is set in Render; `ADMIN_API_KEY` is generated). Proposals live in `/tmp` there, so they reset when the service restarts or sleeps. `/docs` is off in production.
+
+```bash
+pip install -r requirements.txt
+pytest -q tests
+uvicorn agent.api:app --port 8000                                        # the API
+RATE_LIMITS_ENABLED=false python evals/run_evals.py --model gemini-3.5-flash-lite   # live, 30 questions
+python evals/run_evals.py --model ollama --setting ollama-local
+python scripts/record_audit.py   # one full audit: question, tool calls, proposal, approval, audit log
+```
 
 ## Maintenance (Avon)
 

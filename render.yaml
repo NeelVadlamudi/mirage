@@ -1,0 +1,31 @@
+# Render Blueprint: the audit agent API (the board and the audit page are on GitHub Pages, docs/).
+# Free plan: 512 MB RAM, sleeps when idle. The Mirage copy is built from data/ at startup;
+# proposals live in /tmp, so they reset whenever the service restarts or sleeps.
+services:
+  - type: web
+    name: mirage-audit-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn agent.api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.15
+      - key: AGENT_MODEL
+        value: gemini-flash-lite
+      - key: ALLOWED_ORIGINS
+        value: https://neelvadlamudi.github.io
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ADMIN_API_KEY
+        generateValue: true
+      - key: MIRAGE_DB_PATH
+        value: /tmp/mirage.duckdb
+      - key: MIRAGE_STATE_DB
+        value: /tmp/mirage_state.duckdb
+      - key: LOG_LEVEL
+        value: INFO
+      # No /docs, /redoc or /openapi.json on the public API.
+      - key: ENABLE_API_DOCS
+        value: "false"

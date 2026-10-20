@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mirage · audit agent</title>
+  <meta name="description" content="The Mirage audit agent: eval scores, recorded answers, the review queue and one full recorded audit. Synthetic data.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="assets/css/audit.css">
+  <script src="assets/js/audit.js" defer></script>
+</head>
+<body>
+  <header class="head panel">
+    <div>
+      <h1>Mirage · audit agent</h1>
+      <p class="sub">Finds why a shelf is empty and queues the next step for a manager to approve. Synthetic Mirage data: clubs Everett, Dedham and Waltham; DC Avon.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel" id="sec-eval" aria-labelledby="h-eval">
+      <div class="sec-head"><h2 id="h-eval">Eval scores</h2><span class="chip" data-stamp>—</span></div>
+      <div class="body" data-body></div>
+    </section>
+
+    <section class="panel" id="sec-replay" aria-labelledby="h-rp">
+      <div class="sec-head"><h2 id="h-rp">Recorded answers</h2><span class="chip" data-stamp>—</span></div>
+      <p class="note">Answers from the latest audit eval, with the case, the next step and the tool calls behind each one.</p>
+      <div class="body" data-body></div>
+    </section>
+
+    <section class="panel" id="sec-review" aria-labelledby="h-rv">
+      <div class="sec-head"><h2 id="h-rv">Review queue</h2><span class="chip" data-stamp>—</span></div>
+      <div class="body" data-body></div>
+    </section>
+
+    <section class="panel" id="sec-audit" aria-labelledby="h-au">
+      <div class="sec-head"><h2 id="h-au">Audit log</h2><span class="chip" data-stamp>—</span></div>
+      <p class="note">One full audit recorded through the API: ask, queue, a refused approval without a key, the approval, a second decision refused, and the log.</p>
+      <div class="body" data-body></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="./">Board</a>
+    <a href="https://github.com/NeelVadlamudi/mirage" rel="noopener">Source on GitHub</a>
+  </footer>
+</body>
+</html>

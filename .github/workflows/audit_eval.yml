@@ -1,0 +1,45 @@
+# Live 30-question audit eval with Gemini. Run by hand (needs the GEMINI_API_KEY repository secret);
+# commits the result to evals/results and publishes it to docs/data for the Pages audit page.
+name: audit eval
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: Gemini model id
+        default: gemini-3.5-flash-lite
+
+permissions:
+  contents: write
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL_ID: ${{ inputs.model }}
+      RATE_LIMITS_ENABLED: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Check the key is set
+        run: test -n "$GEMINI_API_KEY" || { echo "GEMINI_API_KEY secret is not set"; exit 1; }
+      - name: Run the eval and publish it
+        run: |
+          python scripts/verify_kpis.py
+          python scripts/verify_allocation.py
+          python evals/run_evals.py --model "$GEMINI_MODEL_ID"
+          f=$(ls -t evals/results/"$GEMINI_MODEL_ID"_*.json | head -1)
+          python scripts/publish_eval.py "$f"
+      - name: Commit
+        run: |
+          git config user.name "NeelVadlamudi"
+          git config user.email "73226768+NeelVadlamudi@users.noreply.github.com"
+          git add evals/results docs/data
+          git diff --cached --quiet || git commit -m "Audit eval: $GEMINI_MODEL_ID $(date -u +%F)"
+          git push

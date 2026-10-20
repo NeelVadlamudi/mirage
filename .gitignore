@@ -37,3 +37,9 @@ venv/
 tmp/
 .cache/
 *.log
+
+# Audit agent: the DuckDB copy of data/ and the proposals database are rebuilt locally
+data/*.duckdb*
+evals/review_queue.jsonl
+.pytest_cache/
+.ruff_cache/
