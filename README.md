@@ -1,125 +1,71 @@
 # Mirage
 
-**Live board:** https://neelvadlamudi.github.io/mirage/ · **Portfolio:** https://neelvadlamudi.github.io/neelresume/
+An inventory exception board that turns an empty shelf into a specific next action.
 
-Empty shelf. Full backroom. System still shows stock.
+[Live board](https://neelvadlamudi.github.io/mirage/) · [Audit walkthrough](https://neelvadlamudi.github.io/mirage/audit.html) · [Portfolio](https://neelvadlamudi.github.io/neelresume/)
 
-Mirage is a distribution and club inventory project. Pick a club and a day. See which shelves are empty, why, and what to do next. When a purchase order lands at the DC, see how many whole cases go to each club and whether one club should send stock to another. At the DC, track preventive maintenance cost, fleet coverage for peak weeks, and whether a lighting retrofit actually cut energy use after shipping volume is accounted for.
+## Result and scope
 
-## Data note
+In the synthetic Everett snapshot for **September 22, 2026**, **9 of 40 assortment SKUs had no stock on the sales floor: 22.5%**. Of those gaps, **7** still had positive system on-hand and **6** had stock in the backroom. Those groups overlap; they are not parts to add together.
 
-All inventory, sales, work orders, and utility figures in this repository are synthetic. Map pins mark town centers, not stores. Not affiliated with any retailer. Clubs are Everett, Dedham, and Waltham. The DC is Avon. (Synthetic ids stay `warehouse_1`…`warehouse_4` in extracts.)
+The point is the action, not just the rate. Positive book stock calls for a recount. Backroom stock calls for a floor pull. When neither has stock, replenishment is the next question.
 
-## Gap board
+These figures come from the published [`data/board_data.json`](https://neelvadlamudi.github.io/mirage/data/board_data.json), whose `as_of` is `2026-09-22`, checked November 9, 2026. **All inventory, sales, work orders and utility data are synthetic.** Everett, Dedham and Waltham are scenario labels; map pins mark town centers, not real stores. The project is not affiliated with a retailer.
 
-| Tile | Meaning | Next step |
-| --- | --- | --- |
-| **Empty shelves** | Share of assortment with nothing on the floor | Open the exception list |
-| **Book is wrong** | Floor empty; system still shows on-hand | Recount / correct the book |
-| **Stuck in backroom** | Floor empty; backroom has stock | Pull to the floor |
-| **Actually out** | Floor empty; backroom empty; book is zero | Replenish / order |
+## Allocation without pretending every case is needed
 
-Locked check day (**Everett**, 2026-09-22):
+The sample delivery brings **98 cases** to the Avon distribution center. The allocation sends **60** to clubs and holds **38** at the DC because the modeled club need does not use them. Club-SKU positions below **one week of supply fall from 40 to 32** in the scenario.
 
-- Empty shelves: **22.5%** (9 of 40)
-- Book is wrong: **7**
-- Stuck in backroom: **6**
+Allocations use whole cases. The board also identifies transfers between clubs rather than treating every shortage as a purchase. This is a scenario result, not evidence of savings at a real business. Inspect the [published allocation payload](https://neelvadlamudi.github.io/mirage/data/allocation_board.json) and [allocation rules](docs/allocation.md).
 
-```bash
-python3 scripts/verify_kpis.py
-```
+## A reviewable audit assistant
 
-Expected: `ALL PASS — warehouse_1 @ 2026-09-22: 22.5% / 7 / 6`
+The assistant reads a DuckDB copy of the scenario and explains shelf gaps, inventory positions and allocation decisions. It can propose an action, but it does not change inventory records. Proposals wait for a person's approval or rejection in a separate state database.
 
-Detail: [`docs/metrics.md`](docs/metrics.md).
+The number checker compares numerical claims with tool results. The [audit page](https://neelvadlamudi.github.io/mirage/audit.html) exposes recorded answers and decisions, rather than asking the reader to trust an uninspected chat response:
 
-## Allocation
+- [Evaluation record](https://neelvadlamudi.github.io/mirage/data/audit_eval.json)
+- [Recorded tool-call replay](https://neelvadlamudi.github.io/mirage/data/audit_replay.json)
+- [Proposal queue](https://neelvadlamudi.github.io/mirage/data/audit_proposals.json)
+- [Decision log](https://neelvadlamudi.github.io/mirage/data/audit_audit.json)
 
-PO-26092201 arrives at Avon with **98** cases (12 SKUs).
+The public service uses temporary storage, so proposal history can reset when it restarts. This is a demonstration of the review flow, not a durable production audit system.
 
-- **60** cases allocated to clubs (whole cases, by need)
-- **38** held at the DC (no club need)
-- **1** club-to-club transfer: Sticky Notes Value, 5 cases, Everett → Dedham
-- Club-SKUs under 1 week of supply: **40 → 32**
+## Maintenance is a separate analysis
 
-Rules and decisions: [`docs/allocation.md`](docs/allocation.md).
+The Avon maintenance work covers preventive-maintenance follow-up, failure concentration, fleet coverage and a volume-adjusted energy baseline. These use the same synthetic-data boundary. Associations after missed maintenance are not causal estimates of what maintenance would prevent.
+
+Read the [methods and limits](docs/maintenance.md), [report](docs/maintenance_report.pdf) and [operator guide](docs/maintenance_user_guide.md) before using those outputs.
+
+## Reproduce the checks
 
 ```bash
-python3 scripts/verify_allocation.py
-```
-
-Expected last line: `ALL PASS - PO 98 cases: 60 allocated, 38 held at DC; 1 transfer(s); club-SKUs under 1 week of supply 40 -> 32`
-
-## Audit agent
-
-An audit agent answers questions such as "Why is Paper Towels 12pk empty at Everett on 2026-09-22?" It compares the floor count, the backroom count and the system on-hand figure, names the case (the record is wrong, stock is in the backroom, or truly out), and proposes the next step: recount, pull to the floor, or reorder.
-
-It never changes a record. A proposal waits in a queue until a person approves or rejects it, and each decision goes to an audit log with who decided and when.
-
-Its 30-question eval recomputes every expected value from these CSVs, using the logic of `verify_kpis.py` and `verify_allocation.py`. It stops unless the check day still gives 22.5% / 7 / 6.
-
-Eval scores, recorded answers, the review queue and one recorded audit: [audit page](https://neelvadlamudi.github.io/mirage/audit.html) (`docs/audit.html`, data in `docs/data/audit_*.json`).
-
-- **Code** (`agent/`): a small agent loop and number checker (`loop.py`, `checker.py`), the tools (`tools.py`), the proposals and audit log (`state.py`), and the API (`api.py`, `routes.py`). It runs on Gemini Flash-Lite by default, or on Ollama with `AGENT_MODEL=ollama-local`.
-- **Read-only tools:** `list_shelf_gaps(club, day)`, `get_sku_position(club, sku, day)`, `get_po_allocation(po)` and `get_weeks_of_supply(club, sku)`. They query a DuckDB copy of `data/` that is opened read-only (`agent/build_db.py`).
-- **One write tool**, `propose_action(club, sku, action, reason)`. It only adds a row with status `waiting for approval` to a `proposals` table in a separate database (`MIRAGE_STATE_DB`). It writes nothing unless the action matches the case the read tools found for that club and SKU earlier in the run, and every number in the reason appears in those tool results.
-- **Approval:** `POST /api/proposals/{id}/approve` and `/reject` need `X-API-Key: <ADMIN_API_KEY>` and the deciding person's name. A decision is final; a second one returns 409.
-- **Limits:** `POST /api/mirage/ask` allows 4 a minute and 30 a day per address, 300 a day in total; proposals 3 a minute and 10 a day per address, 50 a day in total. Over the limit returns 429 with `Retry-After`. `RATE_LIMITS_ENABLED=false` turns them off for eval runs.
-- **Eval** (`evals/`): 30 questions. CI runs both checks, the tests, and rescores the recorded run. The `audit eval` workflow runs it live on Gemini (needs the `GEMINI_API_KEY` repository secret).
-- **Hosting:** `render.yaml` is a Render Blueprint for the API on the free plan (`GEMINI_API_KEY` is set in Render; `ADMIN_API_KEY` is generated). Proposals live in `/tmp` there, so they reset when the service restarts or sleeps. `/docs` is off in production.
-
-```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
+python scripts/verify_kpis.py
+python scripts/verify_allocation.py
+python scripts/verify_maintenance.py
 pytest -q tests
-uvicorn agent.api:app --port 8000                                        # the API
-RATE_LIMITS_ENABLED=false python evals/run_evals.py --model gemini-3.5-flash-lite   # live, 30 questions
-python evals/run_evals.py --model ollama --setting ollama-local
-python scripts/record_audit.py   # one full audit: question, tool calls, proposal, approval, audit log
 ```
 
-## Maintenance (Avon)
+The KPI check recomputes the fixed Everett snapshot. The allocation check reconciles cases received, assigned and held. See [metric definitions](docs/metrics.md) and [INSTALL.md](INSTALL.md) for SQL setup; Tableau extracts are in `data/tableau/`.
 
-60 material-handling assets. 1,009 synthetic work orders with problem, cause, and remedy codes.
-
-| Question | Result |
-| --- | --- |
-| Missed or late PM follow-up | Breakdown within 30 days **50.0%** vs **25.8%** after on-time PM. About **33** extra breakdowns and **$35.8K** / year. |
-| Failure concentration | Reach trucks 6+ years old: **4.6x** battery failures per truck vs newer units (3 newer trucks in sample). |
-| Peak fleet coverage | December need **20** order pickers vs fleet **18**. Short in **5** of the next 13 weeks. |
-| LED retrofit | **15.1%** below volume-adjusted energy baseline. Payback **17.5** months. |
-
-Methods and limits: [`docs/maintenance.md`](docs/maintenance.md).  
-One-page report: [`docs/maintenance_report.pdf`](docs/maintenance_report.pdf).  
-Operator guide: [`docs/maintenance_user_guide.md`](docs/maintenance_user_guide.md).
+To view the static board locally:
 
 ```bash
-python3 scripts/verify_maintenance.py
+cd docs
+python3 -m http.server 8080
 ```
 
-## Open the board
-
-https://neelvadlamudi.github.io/mirage/
-
-Local:
-
-```bash
-cd docs && python3 -m http.server 8080
-```
-
-Then open http://localhost:8080/
-
-## SQL and Tableau
-
-Install: [`INSTALL.md`](INSTALL.md).  
-Tableau extracts: `data/tableau/`. Build notes: [`docs/tableau-build.md`](docs/tableau-build.md).
+Open `http://localhost:8080/`. The static board and recorded audit do not require a running model service. Live questions require the separately configured API in `agent/`.
 
 ## Screenshots
 
-| View | File |
-| --- | --- |
-| Desktop | [`docs/screenshots/desktop_1440.png`](docs/screenshots/desktop_1440.png) |
-| Phone | [`docs/screenshots/phone_390.png`](docs/screenshots/phone_390.png) |
+[Desktop](https://neelvadlamudi.github.io/mirage/screenshots/desktop_1440.png) · [Phone](https://neelvadlamudi.github.io/mirage/screenshots/phone_390.png)
+
+Published links use the Pages root: `data/` and `screenshots/`. The repository's `docs/` prefix is not part of those site URLs.
 
 ## License
 
-MIT. Copyright (c) 2026 Neel Vittal Bharath Vadlamudi. See [`LICENSE`](LICENSE).
+[MIT](LICENSE).

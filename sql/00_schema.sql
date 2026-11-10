@@ -1,7 +1,7 @@
 /*
   Mirage — pass 1 schema
   Target: SQL Server (T-SQL). Portable types. Synthetic club retail.
-  Synthetic data for a portfolio demo. Pins mark town centers, not stores. Not affiliated with any retailer.
+  Synthetic demonstration data. Pins mark town centers, not stores. Not affiliated with any retailer.
 */
 
 IF OBJECT_ID('dbo.fact_inventory_daily', 'U') IS NOT NULL DROP TABLE dbo.fact_inventory_daily;
